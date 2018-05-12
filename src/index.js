@@ -1,11 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import "./css/*";
-import "./lib/*"
+import styles from "./css/style.css";
+import Card from "./components/Card";
+
+
+const element = (<div className={"styles.Card"}>
+    <Card />
+</div>);
 
 
 /* Directly adding react element */
 ReactDOM.render(
-    React.createElement('div',null, 'hello world'), 
+    element,
     document.getElementById("root")
 );
