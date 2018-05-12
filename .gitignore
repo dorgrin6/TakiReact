@@ -101,6 +101,4 @@ atlassian-ide-plugin.xml
 TakiReact.iml
 package-lock.json
 package.json
-public/
-src/
 webpack.config.js
