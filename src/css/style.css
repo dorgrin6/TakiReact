@@ -67,7 +67,7 @@ th {
     border: 0 none transparent;
 }
 
-.Card, .card-playZone, .legal-card, .illegal-card, .card-deck {
+.card, .card-playZone, .legal-card, .illegal-card, .card-deck {
     /* shadow */
     box-shadow: 10px 15px rgba(0, 0, 0, 0.2);
     transition: 0.3s;
