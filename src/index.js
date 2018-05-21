@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import styles from "./css/style.css";
-import Card from "./components/Card/Card";
+import {Card} from "./components/Card/Card";
 
 
 const element = (<div className={"styles.Card"}>

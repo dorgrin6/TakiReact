@@ -12,8 +12,8 @@ const cardFactory = (function () {
         return {
             colors: ["blue", "green", "red", "yellow"],
             values: [1, 3, 4, 5, 6, 7, 8, 9],
-            specialTypes: ["taki", "stop", "plus"],
-            superCards: ["change"],
+            specialTypes: ["taki", "stop", "plus", "take2"],
+            superCards: ["change", "superTaki"],
 
             //Functions:
             funcOpenTaki: {},
@@ -21,6 +21,7 @@ const cardFactory = (function () {
             funcTake2: {},
             funcStop: {},
             funcPlus: {},
+            funcSuperTaki: {},
 
             createCard: function (_cardId, _color, _type, _sourceImg, value) {
                 const card = {
@@ -75,7 +76,7 @@ const cardFactory = (function () {
                         card.activate = cardFactory.funcPlus;
                         break;
                     case TYPES.SUPER_TAKI:
-                        card.activate = superTaki;
+                        card.activate = cardFactory.funcSuperTaki;
                         break;
                 }
                 return card;
