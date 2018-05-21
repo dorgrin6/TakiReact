@@ -40,6 +40,10 @@ const manager = (function () {
             if (activePlayer.inTakiMode.status) {
                 return topPlayZone.compareColor(card);
             }
+            else if (manager.getActivePlayer().mustTake > 0
+                && manager.playZone.getTop().type === "take2"){
+                return card.type === "take2";
+            }
 
             // not in taki mode
             return (
@@ -137,6 +141,25 @@ const manager = (function () {
                 const activePlayer = manager.getActivePlayer();
                 activePlayer.endTurn();
                 activePlayer.startTurn();
+            };
+            cardFactory.funcTake2 = function () {
+                var activePlayer = manager.getActivePlayer();
+                var nextPlayer = manager.players[manager.getNextPlayer()];
+
+                nextPlayer.mustTake = activePlayer.mustTake+2;
+                activePlayer.mustTake = 0;
+                activePlayer.endTurn();
+                manager.swapPlayer();
+            };
+            cardFactory.funcSuperTaki = function () {
+                var activePlayer = manager.getActivePlayer();
+                activePlayer.inTakiMode.status = true;
+                if (activePlayer.playerType === "pc") {
+                    activePlayer.selectColor(manager.colorDecision());
+                }
+                else {
+                    cardFactory.funcChangeColor();
+                }
             };
         },
 

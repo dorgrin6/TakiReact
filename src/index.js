@@ -1,11 +1,13 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import "./css/*";
-import "./lib/*"
+import React from "react";
+import ReactDOM from "react-dom";
+import Game from "./components/Game";
 
+const game = (<div>
+  <Game/>
+</div>);
 
 /* Directly adding react element */
 ReactDOM.render(
-    React.createElement('div',null, 'hello world'), 
-    document.getElementById("root")
+  game,
+  document.getElementById("root")
 );

@@ -65,10 +65,20 @@ const playerFactory = (function () {
             };
 
             player.drawCardFromDeck = function () {
-                const card = manager.drawCard();
+                if (player.mustTake > 0){
+                    for(var i = 0; i < player.mustTake; i++){
+                        var card = manager.drawCard();
+                        player.hand.cards.push(card);
+                        player.onDrawCardFromDeck.notify({player: player, card: card});
+                    }
 
-                player.hand.cards.push(card);
-                player.onDrawCardFromDeck.notify({player: player, card: card});
+                    player.mustTake = 0;
+                }
+                else{
+                    var card = manager.drawCard();
+                    player.hand.cards.push(card);
+                    player.onDrawCardFromDeck.notify({player: player, card: card});
+                }
             };
 
             player.drawWhenNoLegalCards = function () {
@@ -82,8 +92,13 @@ const playerFactory = (function () {
                 top.color = color;
                 manager.playZone.putOnTop(top);
                 manager.onColorChanged.notify({color: color});
-                this.endTurn();
-                manager.swapPlayer();
+                if(player.inTakiMode.status === true){
+                    cardFactory.funcOpenTaki();
+                }
+                else{
+                    this.endTurn();
+                    manager.swapPlayer();
+                }
             };
 
             player.closeTaki = function () {
@@ -198,8 +213,13 @@ const playerFactory = (function () {
                 return false;
             }
 
-            if (top.type === TYPES.TAKE2 && findCardInArray(legalCards, TYPES.TAKE2)) {
-                playCard(findCardInArray(legalCards, TYPES.TAKE2));
+            if (top.type === TYPES.TAKE2) {
+                if (findCardInArray(legalCards, TYPES.TAKE2)){
+                    playCard(findCardInArray(legalCards, TYPES.TAKE2));
+                }
+                else {
+                    activePlayer.drawWhenNoLegalCards();
+                }
             }
             else if (findCardInArray(legalCards, TYPES.TAKE2, top.color)) {
                 playCard(findCardInArray(legalCards, TYPES.TAKE2, top.color));
