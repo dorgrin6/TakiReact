@@ -1,16 +1,13 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import styles from "./css/style.css";
-import Card from "./components/Card/Card";
+import React from "react";
+import ReactDOM from "react-dom";
+import Game from "./components/Game";
 
-
-const element = (<div className={"styles.Card"}>
-    <Card />
+const game = (<div>
+  <Game/>
 </div>);
-
 
 /* Directly adding react element */
 ReactDOM.render(
-    element,
-    document.getElementById("root")
+  game,
+  document.getElementById("root")
 );

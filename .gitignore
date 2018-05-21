@@ -1,10 +1,7 @@
 # Logs
 logs
-*.log
 npm-debug.log*
 yarn-debug.log*
-yarn-error.log*
-
 # Runtime data
 pids
 *.pid
@@ -90,4 +87,28 @@ atlassian-ide-plugin.xml
 # Editor-based Rest Client
 .idea/httpRequests
 .idea/
-TakiReact.iml
+# REACT
+ncp-debug.log
+npm-debug.log
+bower_component
+src/config/configSec.js
+
+.DS_STORE
+*.pyc
+_SpecRunner.html
+__benchmarks__
+.module-cache
+*.gem
+docs/.bundle
+docs/code
+docs/_site
+docs/.sass-cache
+docs/js/*
+docs/downloads
+docs/vendor/bundle
+examples/shared/*.js
+test/the-files-to-test.generated.js
+chrome-user-data
+*.sublime-project
+*.sublime-workspace
+*.iml
