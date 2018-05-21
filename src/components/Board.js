@@ -16,7 +16,7 @@ export default class Board extends React.Component {
   render() {
     return (
       <div>
-        <Hand id={"pc"} holder={"card"} />
+        <Hand id={"pc"} />
 
         <div className={"container board-row"}>
           <Stats />
@@ -24,7 +24,7 @@ export default class Board extends React.Component {
           <Deck />
         </div>
 
-        <Hand id={"user"} holder={"card"} />
+        <Hand id={"user"} />
       </div>
     );
   }

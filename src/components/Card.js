@@ -7,7 +7,7 @@ export default class Card extends React.Component {
     this.state = {
       faceUp: true,
       legal: true,
-      holder: props.holder
+      alignment: 0
     };
   }
 
