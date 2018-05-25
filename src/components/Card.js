@@ -9,20 +9,35 @@ export default class Card extends React.Component {
     this.imageFormat = ".png";
 
     this.state = {
-      faceUp: true,
-      legal: true
+      legal: this.props.legal
     };
   }
 
   render() {
-    const image = this.props.frontImg
-      ? this.props.frontImg
-      : this.backCardImgSrc;
+    const image =
+      this.props.holder === "user" || this.props.holder === "playZone"
+        ? this.props.frontImg
+        : this.backCardImgSrc;
     const imgSrc = this.cardsDir + image + this.imageFormat;
     const angle = this.props.rotate ? this.props.rotate : 0;
-    const styles = {
-      transform: "rotate(" + angle + "deg)"
-    };
-    return <img className={"card"} src={imgSrc} style={styles} />;
+    let styles = {};
+    if (angle > 0) {
+      styles = {
+        transform: "rotate(" + angle + "deg)"
+      };
+    }
+    let className = "card";
+    if (this.props.holder === "user") {
+      className = this.props.legal ? "legal-card" : "illegal-card";
+    }
+
+    return (
+      <img
+        className={className}
+        src={imgSrc}
+        style={styles}
+        onClick={this.props.onclick}
+      />
+    );
   }
 }

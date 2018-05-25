@@ -10,17 +10,27 @@ import Deck from "./Deck";
 export default class Board extends React.Component {
   constructor(props) {
     super(props);
+
+    this.stats = {
+      userHand: this.userHand,
+      pcHand: this.pcHand,
+      stats: this.stats,
+      playZone: this.playZone,
+      deck: this.deck
+    };
+
     manager.updateUI = this.updateComponents.bind(this);
     manager.initBoardComponents();
   }
 
-  updateComponents(pcHand, userHand, stats, playZone, deck) {
-    this.pcHand = pcHand;
-    this.userHand = userHand;
-    this.stats = stats;
-    console.log("playZone:", playZone);
-    this.playZone = playZone;
-    this.deck = deck;
+  // Receives a map of the UI components to update.
+  updateComponents(UIComponents) {
+    if (!UIComponents) console.error("empty UIComponents sent");
+    if (UIComponents.userHand) this.userHand = UIComponents.userHand;
+    if (UIComponents.pcHand) this.pcHand = UIComponents.pcHand;
+    if (UIComponents.stats) this.stats = UIComponents.stats;
+    if (UIComponents.playZone) this.playZone = UIComponents.playZone;
+    if (UIComponents.deck) this.deck = UIComponents.deck;
   }
 
   render() {

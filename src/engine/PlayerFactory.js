@@ -3,6 +3,7 @@ import handFactory from "../engine/HandFactory.js";
 import stopWatchFactory from "../engine/StopWatchFactory.js";
 import manager from "../engine/Manager.js";
 import stats from "../engine/Stats.js";
+import cardFactory from "../engine/CardFactory.js";
 
 const playerFactory = (function() {
   const TYPES = {
@@ -64,12 +65,14 @@ const playerFactory = (function() {
 
       player.removedCardFromHand = function(card) {
         player.hand.removeCard(card);
-        player.onRemovedCardFromHand.notify({ card: card });
+        manager.updateHand({hand : manager.getActivePlayer().hand});
+        // player.onRemovedCardFromHand.notify({ card: card });
       };
 
       player.putCardOnPlayZone = function(card) {
         manager.playZone.putOnTop(card);
-        player.onPutCardInPlayZone.notify({ card: card });
+        manager.initBoardComponents();
+        // player.onPutCardInPlayZone.notify({ card: card });
       };
 
       player.drawCardFromDeck = function() {
@@ -78,14 +81,16 @@ const playerFactory = (function() {
           for (let i = 0; i < player.mustTake; i++) {
             card = manager.drawCard();
             player.hand.cards.push(card);
-            player.onDrawCardFromDeck.notify({ player: player, card: card });
+            manager.initBoardComponents();
+            // player.onDrawCardFromDeck.notify({ player: player, card: card });
           }
 
           player.mustTake = 0;
         } else {
           card = manager.drawCard();
           player.hand.cards.push(card);
-          player.onDrawCardFromDeck.notify({ player: player, card: card });
+          manager.initBoardComponents();
+          // player.onDrawCardFromDeck.notify({ player: player, card: card });
         }
       };
 
@@ -252,7 +257,6 @@ const playerFactory = (function() {
 
     startTurn: function() {
       this.turnStopWatch.start();
-
       if (this.hasLastCard()) {
         this.stats.lastCardCounter++;
       }
@@ -265,11 +269,11 @@ const playerFactory = (function() {
         this.stats.turnAmount++;
         this.stats.turnAmountAllGames++;
         stats.turnAmount++;
-
         this.fillLegalCards();
-        manager.onPlayerChanged.notify({
-          activePlayer: manager.getActivePlayer()
-        });
+        // manager.onPlayerChanged.notify({
+        //   activePlayer: manager.getActivePlayer()
+        // });
+        manager.initBoardComponents();
         this.doTurn();
       }
     },

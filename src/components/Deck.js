@@ -1,7 +1,6 @@
 import React from "react";
 import Card from "./Card.js";
 
-// https://stackoverflow.com/questions/35905988/react-js-how-to-append-a-component-on-click
 export default class Deck extends React.Component {
   constructor(props) {
     super(props);
@@ -12,14 +11,15 @@ export default class Deck extends React.Component {
 
   render() {
     //TODO: show deck propertly this is just a stub
-    const card = (
+    const cards = [];
+
+    return (
       <Card
-        holder={this.props.id}
+        holder={"deck"}
         key={this.state.cards[0].cardId}
         frontImg={this.state.cards[0].frontImg}
+        style={{ position: "absolute" }}
       />
     );
-
-    return <div className={"deck"}>{card}</div>;
   }
 }

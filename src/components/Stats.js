@@ -6,6 +6,7 @@ import manager from "../engine/Manager.js";
 export default class Stats extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
       turnAmount: 1,
       time: "",

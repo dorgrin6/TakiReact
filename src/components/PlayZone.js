@@ -10,26 +10,27 @@ export default class PlayZone extends React.Component {
     };
   }
 
-  createPlayZoneCard(card) {
+  createPlayZoneCard(card, isTop) {
     const sign = Math.random() > 0.5 ? 1 : -1;
     const angleAbs = Math.random() * 20;
-    const angle = angleAbs * sign;
+    const angle = isTop ? 0 : angleAbs * sign;
 
     return (
       <Card
         key={card.cardId}
-        holder={"card-playZone"}
+        holder={"playZone"}
+        frontImg={card.frontImg}
         rotate={angle}
       />
     );
   }
 
   render() {
-    console.log(this.state);
-    const playCard = this.createPlayZoneCard(this.state.cards[0]);
+    //TODO: just showing top card for now, need to show the rest as well
+    const topCard = this.createPlayZoneCard(this.state.cards[0], true);
     return (
       <div className={"playZone"} id={"playZone"}>
-        {playCard}
+        {topCard}
       </div>
     );
   }

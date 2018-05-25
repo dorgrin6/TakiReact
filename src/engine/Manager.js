@@ -1,7 +1,6 @@
 import takiDeck from "../engine/Deck.js";
 import playZone from "../engine/PlayZone.js";
 import eventFactory from "../engine/EventFactory.js";
-import handFactory from "../engine/HandFactory.js";
 import playerFactory from "../engine/PlayerFactory.js";
 import cardFactory from "../engine/CardFactory.js";
 import stats from "../engine/Stats.js";
@@ -18,16 +17,17 @@ const manager = (function() {
     onChangeColor: eventFactory.createEvent(), // event represents "ChangeColor" card on playZone
     onColorChanged: eventFactory.createEvent(), // event represents that color of "ChangeColor" was changed
     onDeckRefill: eventFactory.createEvent(),
-    updateUI: {},
+    updateUI: () => {},
 
-    initBoardComponents:function() {
-      manager.updateUI(
-        this.players[0].hand,
-        this.players[1].hand,
-        this.stats,
-        this.playZone,
-        this.deck
-      );
+    initBoardComponents: function() {
+      const UIComps = {
+        userHand: manager.players[0].hand,
+        pcHand: manager.players[1].hand,
+        stats: manager.stats,
+        playZone: manager.playZone,
+        deck: manager.deck
+      };
+      manager.updateUI(UIComps);
     },
 
     drawCard: function() {
@@ -44,6 +44,14 @@ const manager = (function() {
       }
 
       return manager.deck.draw();
+    },
+
+    updateHand: function(hand) {
+      let activePlayer = manager.getActivePlayer();
+      let handToUpdate =
+        activePlayer === "pc" ? { pcHand: hand } : { userHand: hand };
+      debugger;
+      manager.updateUI(handToUpdate);
     },
 
     createPlayers: function() {
@@ -129,7 +137,6 @@ const manager = (function() {
         manager.players[i].init();
         manager.players[i].dealInitialCardsToHand();
       }
-
       manager.playerTurn = 0;
       manager.players[manager.playerTurn].startTurn();
     },
