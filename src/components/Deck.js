@@ -6,25 +6,20 @@ export default class Deck extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      childIds: []
+      cards: props.deck.cards
     };
-
-    this.addChild(props.topCard);
-  }
-
-  addChild(childId){
-    this.setState(prevState => ({
-      childIds: [...prevState.childIds, childId]
-    }));
   }
 
   render() {
-    const children = [];
+    //TODO: show deck propertly this is just a stub
+    const card = (
+      <Card
+        holder={this.props.id}
+        key={this.state.cards[0].cardId}
+        frontImg={this.state.cards[0].frontImg}
+      />
+    );
 
-    for (let i = 0; i < this.state.childIds.length; i++) {
-      children.push(<Card holder={"card-deck"} key={this.state.childIds[i]} />);
-    }
-
-    return <div className={"deck"}>{children}</div>;
+    return <div className={"deck"}>{card}</div>;
   }
 }

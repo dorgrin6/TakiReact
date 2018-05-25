@@ -18,6 +18,17 @@ const manager = (function() {
     onChangeColor: eventFactory.createEvent(), // event represents "ChangeColor" card on playZone
     onColorChanged: eventFactory.createEvent(), // event represents that color of "ChangeColor" was changed
     onDeckRefill: eventFactory.createEvent(),
+    updateUI: {},
+
+    initBoardComponents:function() {
+      manager.updateUI(
+        this.players[0].hand,
+        this.players[1].hand,
+        this.stats,
+        this.playZone,
+        this.deck
+      );
+    },
 
     drawCard: function() {
       // if the deck is empty, take the cards from playZone

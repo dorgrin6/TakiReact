@@ -1,10 +1,9 @@
 import cardFactory from "../engine/CardFactory.js";
 const takiDeck = (function() {
-  let cards = [];
-
   // from https://stackoverflow.com/questions/6274339/how-can-i-shuffle-an-array
   function shuffle() {
     let j, x, i;
+    const cards = takiDeck.cards;
     for (i = cards.length - 1; i > 0; i--) {
       j = Math.floor(Math.random() * (i + 1));
       x = cards[i];
@@ -21,6 +20,8 @@ const takiDeck = (function() {
     VALUE_CARDS: 2,
     SPECIAL_CARDS: 2,
     SUPER_CARDS: 4,
+
+    cards: [],
 
     // TODO: need to change deck size in advanced
     createDeck: function() {
@@ -77,33 +78,29 @@ const takiDeck = (function() {
     },
 
     insertCard: function(card) {
-      const randomIndex = Math.floor(Math.random() * cards.length);
-      cards.splice(randomIndex, 0, card);
+      const randomIndex = Math.floor(Math.random() * takiDeck.cards.length);
+      takiDeck.cards.splice(randomIndex, 0, card);
     },
 
     insertCards: function(cards) {
-      cards.push(cards);
+      takiDeck.cards.push(cards);
       shuffle();
     },
 
     draw: function() {
-      return cards.pop();
+      return takiDeck.cards.pop();
     },
 
     isEmpty: function() {
-      return cards.length === 0;
+      return takiDeck.cards.length === 0;
     },
 
     isLastCard: function() {
-      return cards.length === 1;
+      return takiDeck.cards.length === 1;
     },
 
     clearDeck: function() {
-      cards = [];
-    },
-
-    getCards: function() {
-      return cards;
+      takiDeck.cards = [];
     }
   };
 })();

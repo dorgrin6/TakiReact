@@ -25,7 +25,6 @@ const stopWatchFactory = (function() {
       };
 
       stopWatch.getElapsedTime = function() {
-        console.log(stopWatch.startMillisecs);
         return stopWatchFactory.millisToMinutesAndSeconds(
           new Date().getTime() - stopWatch.startMillisecs
         );

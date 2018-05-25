@@ -1,25 +1,25 @@
 const playZone = (function() {
-  const cards = [];
-
   return {
+    cards: [],
+
     putOnTop: function(card) {
-      cards.push(card);
+      playZone.cards.push(card);
     },
 
     popTheTop: function() {
-      return cards.pop();
+      return playZone.cards.pop();
     },
 
     getTop: function() {
-      return cards[cards.length - 1];
+      return playZone.cards[playZone.cards.length - 1];
     },
 
     getUsedCards: function() {
-      return cards.splice(0, cards.length - 1);
+      return playZone.cards.splice(0, playZone.cards.length - 1);
     },
 
     isEmpty: function() {
-      return cards.length === 0;
+      return playZone.cards.length === 0;
     }
   };
 })();

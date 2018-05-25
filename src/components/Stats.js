@@ -1,6 +1,7 @@
 import React from "react";
 import "../css/styleStatsMenu.css";
 import stats from "../engine/Stats.js";
+import manager from "../engine/Manager.js";
 
 export default class Stats extends React.Component {
   constructor(props) {
@@ -11,10 +12,10 @@ export default class Stats extends React.Component {
       turnIndicator: "",
       elapsedTimeInterval: {}
     };
-    this.init();
-  }
 
-  init() {}
+    this.state.turnIndicator =
+      manager.getActivePlayer().playerType === "user" ? "Your turn" : "PC turn";
+  }
 
   componentDidMount() {
     const elapsedTimeInterval = setInterval(() => {
@@ -35,7 +36,7 @@ export default class Stats extends React.Component {
         <div className={"stats-text"}>
           <p>Turns: {this.state.turnAmount}</p>
           <p>Time: {this.state.time}</p>
-          <p>Your Turn: {this.state.turnIndicator}</p>
+          <p>{this.state.turnIndicator}</p>
           <button className={"stats-button button-UI"} id={"quit-button"}>
             Quit
           </button>
