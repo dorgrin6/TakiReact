@@ -22,7 +22,7 @@ export default class Board extends React.Component {
     manager.updateUI = this.updateUI.bind(this);
   }
 
-  componentWillMount(){
+  componentWillMount() {
     manager.initBoardComponents();
   }
 
@@ -37,8 +37,7 @@ export default class Board extends React.Component {
       this.setState(() => ({ stats: UIComponents.stats }));
     if (UIComponents.playZone)
       this.setState(() => ({ playZone: UIComponents.playZone }));
-    if (UIComponents.deck)
-      this.setState(() => ({ deck: UIComponents.deck }));
+    if (UIComponents.deck) this.setState(() => ({ deck: UIComponents.deck }));
   }
 
   render() {
