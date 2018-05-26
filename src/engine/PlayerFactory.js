@@ -65,7 +65,7 @@ const playerFactory = (function() {
 
       player.removedCardFromHand = function(card) {
         player.hand.removeCard(card);
-        manager.updateHand({hand : manager.getActivePlayer().hand});
+        manager.updateHand({ hand: manager.getActivePlayer().hand });
         // player.onRemovedCardFromHand.notify({ card: card });
       };
 
@@ -270,10 +270,9 @@ const playerFactory = (function() {
         this.stats.turnAmountAllGames++;
         stats.turnAmount++;
         this.fillLegalCards();
-        // manager.onPlayerChanged.notify({
-        //   activePlayer: manager.getActivePlayer()
-        // });
-        manager.initBoardComponents();
+        manager.onPlayerChanged.notify({
+          activePlayer: manager.getActivePlayer()
+        });
         this.doTurn();
       }
     },

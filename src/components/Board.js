@@ -11,40 +11,48 @@ export default class Board extends React.Component {
   constructor(props) {
     super(props);
 
-    this.stats = {
-      userHand: this.userHand,
-      pcHand: this.pcHand,
-      stats: this.stats,
-      playZone: this.playZone,
-      deck: this.deck
+    this.state = {
+      userHand: {},
+      pcHand: {},
+      stats: {},
+      playZone: {},
+      deck: {}
     };
 
-    manager.updateUI = this.updateComponents.bind(this);
+    manager.updateUI = this.updateUI.bind(this);
+  }
+
+  componentWillMount(){
     manager.initBoardComponents();
   }
 
   // Receives a map of the UI components to update.
-  updateComponents(UIComponents) {
+  updateUI(UIComponents) {
     if (!UIComponents) console.error("empty UIComponents sent");
-    if (UIComponents.userHand) this.userHand = UIComponents.userHand;
-    if (UIComponents.pcHand) this.pcHand = UIComponents.pcHand;
-    if (UIComponents.stats) this.stats = UIComponents.stats;
-    if (UIComponents.playZone) this.playZone = UIComponents.playZone;
-    if (UIComponents.deck) this.deck = UIComponents.deck;
+    if (UIComponents.userHand)
+      this.setState(() => ({ userHand: UIComponents.userHand }));
+    if (UIComponents.pcHand)
+      this.setState(() => ({ pcHand: UIComponents.pcHand }));
+    if (UIComponents.stats)
+      this.setState(() => ({ stats: UIComponents.stats }));
+    if (UIComponents.playZone)
+      this.setState(() => ({ playZone: UIComponents.playZone }));
+    if (UIComponents.deck)
+      this.setState(() => ({ deck: UIComponents.deck }));
   }
 
   render() {
     return (
       <div>
-        <Hand id={"pc"} hand={this.pcHand} />
+        <Hand id={"pc"} hand={this.state.pcHand} />
 
         <div className={"container board-row"}>
-          <Stats stats={this.stats} />
-          <PlayZone playZone={this.playZone} />
-          <Deck deck={this.deck} />
+          <Stats stats={this.state.stats} />
+          <PlayZone playZone={this.state.playZone} />
+          <Deck deck={this.state.deck} />
         </div>
 
-        <Hand id={"user"} hand={this.userHand} />
+        <Hand id={"user"} hand={this.state.userHand} />
       </div>
     );
   }
