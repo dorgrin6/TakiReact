@@ -7,6 +7,7 @@ export default class Game extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      board: {},
       history: {},
       stepNumber: 0
     };
@@ -19,7 +20,16 @@ export default class Game extends React.Component {
     manager.init();
   }
 
+  componentWillMount() {
+      manager.setUIUpdateFunction(this.updateUI.bind(this));
+      manager.updateUI();
+  }
+
+  updateUI(boardState) {
+    this.setState(() => ({board: boardState}));
+  }
+
   render() {
-    return <Board />;
+    return <Board board={this.state.board}/>;
   }
 }

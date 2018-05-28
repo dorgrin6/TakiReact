@@ -1,6 +1,8 @@
 import React from "react";
 import Card from "./Card.js";
 
+const playZoneCards=[];
+
 export default class PlayZone extends React.Component {
   constructor(props) {
     super(props);
@@ -10,11 +12,10 @@ export default class PlayZone extends React.Component {
     };
   }
 
-  createPlayZoneCard(card, isTop) {
+  createPlayZoneCard(card) {
     const sign = Math.random() > 0.5 ? 1 : -1;
     const angleAbs = Math.random() * 20;
-    const angle = isTop ? 0 : angleAbs * sign;
-
+    const angle = angleAbs * sign;
     return (
       <Card
         key={card.cardId}
@@ -25,12 +26,20 @@ export default class PlayZone extends React.Component {
     );
   }
 
+  putPlayZoneCard(card){
+      playZoneCards.push(card);
+  }
+
   render() {
-    //TODO: just showing top card for now, need to show the rest as well
-    const topCard = this.createPlayZoneCard(this.state.cards[0], true);
+    if (this.state.cards.length != playZoneCards.length){
+        var topCard = this.state.cards[this.state.cards.length-1];
+        var newCard = this.createPlayZoneCard(topCard);
+        this.putPlayZoneCard(newCard);
+    }
+
     return (
       <div className={"playZone"} id={"playZone"}>
-        {topCard}
+        {playZoneCards}
       </div>
     );
   }

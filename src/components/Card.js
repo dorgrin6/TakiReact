@@ -1,5 +1,6 @@
 import React from "react";
 import "../css/style.css";
+import manager from "../engine/Manager.js";
 
 export default class Card extends React.Component {
   constructor(props) {
@@ -20,15 +21,19 @@ export default class Card extends React.Component {
         : this.backCardImgSrc;
     const imgSrc = this.cardsDir + image + this.imageFormat;
     const angle = this.props.rotate ? this.props.rotate : 0;
-    let styles = {};
-    if (angle > 0) {
-      styles = {
-        transform: "rotate(" + angle + "deg)"
-      };
-    }
+    const styles = {transform: "rotate(" + angle + "deg)"};
     let className = "card";
-    if (this.props.holder === "user") {
+
+    //TODO: this is not good because it enables the animation even when its not the user's turn
+    if (manager.getActivePlayer().playerType ===  "user" && this.props.holder === "user") {
       className = this.props.legal ? "legal-card" : "illegal-card";
+    }
+
+    if (this.props.holder === "playZone"){
+        className = "card-playZone";
+    }
+    else if (this.props.holder === "deck"){
+        className = "card-deck";
     }
 
     return (

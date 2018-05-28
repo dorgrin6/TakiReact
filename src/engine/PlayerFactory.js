@@ -65,13 +65,15 @@ const playerFactory = (function() {
 
       player.removedCardFromHand = function(card) {
         player.hand.removeCard(card);
-        manager.updateHand({ hand: manager.getActivePlayer().hand });
+        //manager.updateHand({ hand: manager.getActivePlayer().hand });
+
         // player.onRemovedCardFromHand.notify({ card: card });
       };
 
       player.putCardOnPlayZone = function(card) {
         manager.playZone.putOnTop(card);
-        manager.initBoardComponents();
+        manager.updateUI();
+
         // player.onPutCardInPlayZone.notify({ card: card });
       };
 
@@ -81,7 +83,7 @@ const playerFactory = (function() {
           for (let i = 0; i < player.mustTake; i++) {
             card = manager.drawCard();
             player.hand.cards.push(card);
-            manager.initBoardComponents();
+            manager.updateUI();
             // player.onDrawCardFromDeck.notify({ player: player, card: card });
           }
 
@@ -89,7 +91,7 @@ const playerFactory = (function() {
         } else {
           card = manager.drawCard();
           player.hand.cards.push(card);
-          manager.initBoardComponents();
+          manager.updateUI();
           // player.onDrawCardFromDeck.notify({ player: player, card: card });
         }
       };
@@ -129,7 +131,12 @@ const playerFactory = (function() {
 
       player.fillLegalCards = function() {
         player.hand.legalCards = player.hand.cards.filter(manager.isCardLegal);
+        manager.updateUI();
         player.onUpdateLegalCards.notify({ activePlayer: this });
+      };
+
+      player.clearLegalCards = function() {
+        player.hand.legalCards = [];
       };
 
       player.playCard = function(card) {
@@ -278,6 +285,7 @@ const playerFactory = (function() {
     },
 
     endTurn: function() {
+      this.clearLegalCards();
       const elapsed = this.turnStopWatch.stop();
       this.stats.turnsTime += elapsed;
       this.stats.turnsTimeAllGames += elapsed;

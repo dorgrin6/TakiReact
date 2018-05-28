@@ -17,18 +17,23 @@ const manager = (function() {
     onChangeColor: eventFactory.createEvent(), // event represents "ChangeColor" card on playZone
     onColorChanged: eventFactory.createEvent(), // event represents that color of "ChangeColor" was changed
     onDeckRefill: eventFactory.createEvent(),
-    updateUI: UIComponents => {}, // set by Board to be updateUI(UIComponents)
+    UIFunction: boardState => {}, // set by Board to be updateUI(UIComponents)
     // receives a map of components to update
 
-    initBoardComponents: function() {
-      const UIComps = {
-        userHand: manager.players[0].hand,
-        pcHand: manager.players[1].hand,
+    setUIUpdateFunction: function(func){
+      this.UIFunction = func;
+    },
+
+    updateUI: function() {
+      const boardState = {
+        userPlayer: manager.players[0],
+        pcPlayer: manager.players[1],
         stats: manager.stats,
         playZone: manager.playZone,
         deck: manager.deck
       };
-      manager.updateUI(UIComps);
+
+      manager.UIFunction(boardState);
     },
 
     drawCard: function() {
@@ -45,15 +50,6 @@ const manager = (function() {
       }
 
       return manager.deck.draw();
-    },
-
-    // receives a hand to update
-    updateHand: function(hand) {
-      let activePlayer = manager.getActivePlayer();
-      let handToUpdate =
-        activePlayer === "pc" ? { pcHand: hand } : { userHand: hand };
-      debugger;
-      manager.updateUI(handToUpdate);
     },
 
     createPlayers: function() {

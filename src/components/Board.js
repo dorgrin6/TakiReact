@@ -12,46 +12,21 @@ export default class Board extends React.Component {
     super(props);
 
     this.state = {
-      userHand: {},
-      pcHand: {},
-      stats: {},
-      playZone: {},
-      deck: {}
     };
-
-    manager.updateUI = this.updateUI.bind(this);
-  }
-
-  componentWillMount() {
-    manager.initBoardComponents();
-  }
-
-  // Receives a map of the UI components to update.
-  updateUI(UIComponents) {
-    if (!UIComponents) console.error("empty UIComponents sent");
-    if (UIComponents.userHand)
-      this.setState(() => ({ userHand: UIComponents.userHand }));
-    if (UIComponents.pcHand)
-      this.setState(() => ({ pcHand: UIComponents.pcHand }));
-    if (UIComponents.stats)
-      this.setState(() => ({ stats: UIComponents.stats }));
-    if (UIComponents.playZone)
-      this.setState(() => ({ playZone: UIComponents.playZone }));
-    if (UIComponents.deck) this.setState(() => ({ deck: UIComponents.deck }));
   }
 
   render() {
     return (
       <div>
-        <Hand id={"pc"} hand={this.state.pcHand} />
+          <Hand id={"pc"} hand={this.props.board.pcPlayer.hand} />
 
-        <div className={"container board-row"}>
-          <Stats stats={this.state.stats} />
-          <PlayZone playZone={this.state.playZone} />
-          <Deck deck={this.state.deck} />
-        </div>
+          <div className={"container board-row"}>
+              <Stats stats={this.props.board.stats} />
+              <PlayZone playZone={this.props.board.playZone} />
+              <Deck deck={this.props.board.deck} />
+          </div>
 
-        <Hand id={"user"} hand={this.state.userHand} />
+          <Hand id={"user"} hand={this.props.board.userPlayer.hand} />
       </div>
     );
   }

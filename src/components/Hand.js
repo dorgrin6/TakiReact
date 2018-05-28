@@ -28,22 +28,29 @@ export default class Hand extends React.Component {
   }
 
   render() {
-    const cards = [];
 
-    for (let i = 0; i < this.state.cards.length; i++) {
-      let currentCard = this.state.cards[i];
+    console.log("-------in hand----------");
+    for(var i = 0; i<this.props.hand.legalCards.length; i++){
+      console.log(this.props.hand.legalCards[i]);
+    }
+
+
+    const cards = [];
+    for (let i = 0; i < this.props.hand.cards.length; i++) {
+      let currentCard = this.props.hand.cards[i];
       let frontImg = currentCard.frontImg;
       let legalCard =
-        this.state.legalCards.find(
+        this.props.hand.legalCards.find(
           card => card.cardId === currentCard.cardId
         ) !== undefined;
       let handleClick = function() {
         this.cardSelected(currentCard.cardId);
       };
+
       cards.push(
         <Card
           holder={this.props.id}
-          key={this.state.cards[i].cardId}
+          key={this.props.hand.cards[i].cardId}
           legal={legalCard}
           frontImg={frontImg}
           onclick={handleClick.bind(this)}
