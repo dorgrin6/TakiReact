@@ -20,6 +20,12 @@ const playZone = (function() {
 
     isEmpty: function() {
       return playZone.cards.length === 0;
+    },
+
+    copyState: function(){
+      return {
+        cards: playZone.cards.slice()
+      };
     }
   };
 })();

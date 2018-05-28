@@ -7,10 +7,7 @@ export default class Hand extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      cards: this.props.hand.cards,
-      legalCards: this.props.hand.legalCards
-    };
+    this.cardsInHand = [];
   }
 
   cardSelected(cardId) {
@@ -28,12 +25,6 @@ export default class Hand extends React.Component {
   }
 
   render() {
-
-    console.log("-------in hand----------");
-    for(var i = 0; i<this.props.hand.legalCards.length; i++){
-      console.log(this.props.hand.legalCards[i]);
-    }
-
 
     const cards = [];
     for (let i = 0; i < this.props.hand.cards.length; i++) {

@@ -8,6 +8,14 @@ const stats = (function() {
     gameWatch: gameWatch,
     getElapsedTime: function() {
       return stats.gameWatch.getElapsedTime();
+    },
+
+    copyState: function() {
+      return {
+        gamesAmount: stats.gamesAmount,
+        turnAmount: stats.turnAmount,
+        gameElapsedTime: stats.getElapsedTime()
+      };
     }
   };
 })();

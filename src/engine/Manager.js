@@ -17,22 +17,30 @@ const manager = (function() {
     onChangeColor: eventFactory.createEvent(), // event represents "ChangeColor" card on playZone
     onColorChanged: eventFactory.createEvent(), // event represents that color of "ChangeColor" was changed
     onDeckRefill: eventFactory.createEvent(),
-    UIFunction: boardState => {}, // set by Board to be updateUI(UIComponents)
-    // receives a map of components to update
+    UIFunction: boardState => {},
+    UIChangeColor: () => {},
+    UIColorChanged: color => {},
 
     setUIUpdateFunction: function(func){
       this.UIFunction = func;
     },
 
+    setUIChangeColorFunction: function(func){
+      this.UIChangeColor = func;
+    },
+
+    setUIColorChangedFunction: function(func){
+      this.UIColorChanged = func;
+    },
+
     updateUI: function() {
       const boardState = {
-        userPlayer: manager.players[0],
-        pcPlayer: manager.players[1],
-        stats: manager.stats,
-        playZone: manager.playZone,
-        deck: manager.deck
+          userPlayer: manager.players[0].copyState(),
+          pcPlayer: manager.players[1].copyState(),
+          stats: stats.copyState(),
+          playZone: manager.playZone.copyState(),
+          deck: manager.deck.copyState()
       };
-
       manager.UIFunction(boardState);
     },
 
@@ -156,6 +164,7 @@ const manager = (function() {
         if (activePlayer.playerType === "pc") {
           activePlayer.selectColor(manager.colorDecision());
         } else {
+          manager.UIChangeColor();
           manager.onChangeColor.notify();
         }
       };

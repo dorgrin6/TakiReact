@@ -101,6 +101,12 @@ const takiDeck = (function() {
 
     clearDeck: function() {
       takiDeck.cards = [];
+    },
+
+    copyState: function(){
+      return {
+        cards: takiDeck.cards.slice()
+      };
     }
   };
 })();

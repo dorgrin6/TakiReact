@@ -4,7 +4,6 @@ import Card from "./Card.js";
 export default class Deck extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
       // cardsAmount: props.deck.cards.length
     };
@@ -24,15 +23,4 @@ export default class Deck extends React.Component {
       />
     );
   }
-
-  componentDidUpdate(){
-      console.log("----------deck is updated------------");
-  }
-
-  // shouldComponentUpdate(prevProps, prevState){
-  //   var res = !(this.state.cardsAmount === this.props.deck.cards.length);
-  //   console.log("updated status: "+res);
-  //   console.log(prevProps.deck.cards);
-  //   return res;
-  // }
 }
