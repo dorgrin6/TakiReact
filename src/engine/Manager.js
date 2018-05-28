@@ -17,7 +17,10 @@ const manager = (function() {
     onChangeColor: eventFactory.createEvent(), // event represents "ChangeColor" card on playZone
     onColorChanged: eventFactory.createEvent(), // event represents that color of "ChangeColor" was changed
     onDeckRefill: eventFactory.createEvent(),
+
     CBUpdateUIComponents: () => {}, // set by Board to be updateUI(UIComponents)
+    setOnPlayerChanged: () => {},
+
     // CBPlayerChanged: () => {},
 
     setCBUIUpdateFunction: function(func) {

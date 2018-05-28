@@ -10,35 +10,59 @@ export default class Stats extends React.Component {
     this.state = {
       turnAmount: 1,
       time: "",
-      turnIndicator: "",
-      elapsedTimeInterval: {}
+      elapsedTimeInterval: {},
+      activePlayer: {}
     };
-
-    this.state.turnIndicator =
-      manager.getActivePlayer().playerType === "user" ? "Your turn" : "PC turn";
   }
 
   componentDidMount() {
-    const elapsedTimeInterval = setInterval(() => {
+    this.elapsedTimeInterval = setInterval(() => {
       this.setState(() => {
-        return { time: stats.getElapsedTime() };
+        return {
+          time: stats.getElapsedTime(),
+          activePlayer: manager.getActivePlayer()
+        };
       });
     }, 1000);
 
     this.setState(() => {
-      return { elapsedTimeInterval: elapsedTimeInterval };
+      return { elapsedTimeInterval: this.elapsedTimeInterval };
     });
   }
 
+  handleQuit() {
+    stats.gameWatch.stop();
+    clearInterval(this.elapsedTimeInterval);
+    // TODO: show end game menu
+  }
+
   render() {
+    const activePlayer = this.state.activePlayer;
+
+    let turnIndicator = "";
+    let lastCardCounter = "";
+    let avgTime = "";
+
+    if (activePlayer && activePlayer.stats){
+      turnIndicator = activePlayer.playerType === "user" ? "Your turn" : "PC turn";
+      lastCardCounter = activePlayer.stats.lastCardCounter;
+      avgTime = activePlayer.getAvgTurnTime();
+    }
+
     return (
       <div className={"stats"}>
         <img src={"../src/textures/board.png"} id={"stats-board"} />
         <div className={"stats-text"}>
           <p>Turns: {this.state.turnAmount}</p>
           <p>Time: {this.state.time}</p>
-          <p>{this.state.turnIndicator}</p>
-          <button className={"stats-button button-UI"} id={"quit-button"}>
+          <p>{turnIndicator}</p>
+          <p>Last card:{lastCardCounter}</p>
+          <p>Avg time per turn:{avgTime}</p>
+          <button
+            className={"stats-button button-UI"}
+            id={"quit-button"}
+            onClick={this.handleQuit.bind(this)}
+          >
             Quit
           </button>
         </div>

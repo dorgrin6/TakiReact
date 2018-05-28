@@ -97,6 +97,9 @@ const playerFactory = (function() {
       };
 
       player.drawWhenNoLegalCards = function() {
+        if (player.hand.legalCards.length > 0) {
+          return;
+        }
         this.drawCardFromDeck();
         this.endTurn();
         manager.swapPlayer();
@@ -223,6 +226,7 @@ const playerFactory = (function() {
       const findCardInArray = cardFactory.findCardInArray;
       const activePlayer = manager.getActivePlayer();
       const legalCards = this.hand.legalCards;
+      console.log("PC legalCards:",legalCards);
 
       if (!top) {
         console.error("pc turn with no cards in playzone");

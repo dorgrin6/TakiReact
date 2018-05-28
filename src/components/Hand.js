@@ -1,6 +1,7 @@
 import React from "react";
 import Card from "./Card.js";
 import manager from "../engine/Manager";
+import "../css/cardDirections.css"
 
 export default class Hand extends React.Component {
   constructor(props) {
@@ -13,9 +14,12 @@ export default class Hand extends React.Component {
   }
 
   cardSelected(cardId) {
-    console.log("in card selected for ", cardId);
     const player = manager.getActivePlayer();
     const cards = player.hand.cards;
+
+    if (player.playerType !== this.props.id) {
+      return;
+    }
 
     for (let i = 0; i < cards.length; i++) {
       if (cards[i].cardId === cardId) {
@@ -55,6 +59,8 @@ export default class Hand extends React.Component {
   render() {
     const cards = [];
     const propsCards = this.props.hand.cards;
+
+    console.log(this.props.id,":",this.props.hand.legalCards);
 
     for (let i = 0; i < propsCards.length; i++) {
       const newCard = this.createCard(propsCards[i]);

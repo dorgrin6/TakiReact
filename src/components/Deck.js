@@ -26,6 +26,11 @@ export default class Deck extends React.Component {
     return res;
   }
 
+  handleClick(){
+    console.log(manager.getActivePlayer().hand.legalCards);
+    manager.getActivePlayer().drawWhenNoLegalCards();
+  }
+
   render() {
     //TODO: show deck propertly this is just a stub
 
@@ -39,6 +44,7 @@ export default class Deck extends React.Component {
         frontImg={this.props.deck.cards[0].frontImg}
         cardStyle={cardStyle}
         style={{ position: "absolute" }}
+        onclick={this.handleClick.bind(this)}
       />
     );
   }

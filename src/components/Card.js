@@ -1,5 +1,6 @@
 import React from "react";
 import "../css/style.css";
+import "../css/cardDirections.css";
 
 export default class Card extends React.Component {
   constructor(props) {
@@ -7,6 +8,13 @@ export default class Card extends React.Component {
     this.backCardImgSrc = "card_back";
     this.cardsDir = "../src/textures/cards/";
     this.imageFormat = ".png";
+  }
+
+  //TODO: this should handle the cardDirections
+  handleMouseOver(){
+  }
+
+  handleMouseOut(){
   }
 
   //TODO: this is not good because it enables the animation even when its not the user's turn
@@ -27,6 +35,8 @@ export default class Card extends React.Component {
         src={imgSrc}
         style={styles}
         onClick={this.props.onclick}
+        onMouseOver={this.handleMouseOver.bind(this)}
+        onMouseOut={this.handleMouseOut.bind(this)}
       />
     );
   }
