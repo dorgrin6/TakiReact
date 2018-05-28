@@ -1,7 +1,7 @@
 import React from "react";
 import Card from "./Card.js";
-import HandFactory from "../engine/HandFactory.js";
 import manager from "../engine/Manager";
+import "../css/cardDirections.css"
 
 export default class Hand extends React.Component {
   constructor(props) {
@@ -11,9 +11,12 @@ export default class Hand extends React.Component {
   }
 
   cardSelected(cardId) {
-    console.log("in card selected for ", cardId);
     const player = manager.getActivePlayer();
     const cards = player.hand.cards;
+
+    if (player.playerType !== this.props.id) {
+      return;
+    }
 
     for (let i = 0; i < cards.length; i++) {
       if (cards[i].cardId === cardId) {
@@ -24,29 +27,41 @@ export default class Hand extends React.Component {
     }
   }
 
+  createCard(currentCard) {
+    const activePlayer = manager.getActivePlayer();
+    let cardStyle = "card";
+    if (activePlayer.playerType === "user" && this.props.id === "user") {
+      if (manager.isCardLegal(currentCard)) {
+        cardStyle = "legal-card";
+      } else {
+        cardStyle = "illegal-card";
+      }
+    }
+
+    const handleClick = function() {
+      this.cardSelected(currentCard.cardId);
+    };
+
+    return (
+      <Card
+        holder={this.props.id}
+        key={currentCard.cardId}
+        cardStyle={cardStyle}
+        frontImg={currentCard.frontImg}
+        onclick={handleClick.bind(this)}
+      />
+    );
+  }
+
   render() {
-
     const cards = [];
-    for (let i = 0; i < this.props.hand.cards.length; i++) {
-      let currentCard = this.props.hand.cards[i];
-      let frontImg = currentCard.frontImg;
-      let legalCard =
-        this.props.hand.legalCards.find(
-          card => card.cardId === currentCard.cardId
-        ) !== undefined;
-      let handleClick = function() {
-        this.cardSelected(currentCard.cardId);
-      };
+    const propsCards = this.props.hand.cards;
 
-      cards.push(
-        <Card
-          holder={this.props.id}
-          key={this.props.hand.cards[i].cardId}
-          legal={legalCard}
-          frontImg={frontImg}
-          onclick={handleClick.bind(this)}
-        />
-      );
+    console.log(this.props.id,":",this.props.hand.legalCards);
+
+    for (let i = 0; i < propsCards.length; i++) {
+      const newCard = this.createCard(propsCards[i]);
+      cards.push(newCard);
     }
 
     return <div className={"hand board-row"}>{cards}</div>;

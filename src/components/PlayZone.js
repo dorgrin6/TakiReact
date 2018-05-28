@@ -32,6 +32,7 @@ export default class PlayZone extends React.Component {
       <Card
         key={card.cardId}
         holder={"playZone"}
+        cardStyle={"card-playZone"}
         frontImg={card.frontImg}
         rotate={angle}
       />
