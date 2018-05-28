@@ -1,6 +1,5 @@
 import React from "react";
 import Card from "./Card.js";
-import HandFactory from "../engine/HandFactory.js";
 import manager from "../engine/Manager";
 
 export default class Hand extends React.Component {
@@ -27,35 +26,39 @@ export default class Hand extends React.Component {
     }
   }
 
-  render() {
-
-    console.log("-------in hand----------");
-    for(var i = 0; i<this.props.hand.legalCards.length; i++){
-      console.log(this.props.hand.legalCards[i]);
+  createCard(currentCard) {
+    const activePlayer = manager.getActivePlayer();
+    let cardStyle = "card";
+    if (activePlayer.playerType === "user" && this.props.id === "user") {
+      if (manager.isCardLegal(currentCard)) {
+        cardStyle = "legal-card";
+      } else {
+        cardStyle = "illegal-card";
+      }
     }
 
+    const handleClick = function() {
+      this.cardSelected(currentCard.cardId);
+    };
 
+    return (
+      <Card
+        holder={this.props.id}
+        key={currentCard.cardId}
+        cardStyle={cardStyle}
+        frontImg={currentCard.frontImg}
+        onclick={handleClick.bind(this)}
+      />
+    );
+  }
+
+  render() {
     const cards = [];
-    for (let i = 0; i < this.props.hand.cards.length; i++) {
-      let currentCard = this.props.hand.cards[i];
-      let frontImg = currentCard.frontImg;
-      let legalCard =
-        this.props.hand.legalCards.find(
-          card => card.cardId === currentCard.cardId
-        ) !== undefined;
-      let handleClick = function() {
-        this.cardSelected(currentCard.cardId);
-      };
+    const propsCards = this.props.hand.cards;
 
-      cards.push(
-        <Card
-          holder={this.props.id}
-          key={this.props.hand.cards[i].cardId}
-          legal={legalCard}
-          frontImg={frontImg}
-          onclick={handleClick.bind(this)}
-        />
-      );
+    for (let i = 0; i < propsCards.length; i++) {
+      const newCard = this.createCard(propsCards[i]);
+      cards.push(newCard);
     }
 
     return <div className={"hand board-row"}>{cards}</div>;

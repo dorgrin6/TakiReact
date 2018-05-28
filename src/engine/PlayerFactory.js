@@ -277,9 +277,10 @@ const playerFactory = (function() {
         this.stats.turnAmountAllGames++;
         stats.turnAmount++;
         this.fillLegalCards();
-        manager.onPlayerChanged.notify({
-          activePlayer: manager.getActivePlayer()
-        });
+        // manager.CBPlayerChanged(manager.getActivePlayer());
+        // manager.onPlayerChanged.notify({
+        //   activePlayer: manager.getActivePlayer()
+        // });
         this.doTurn();
       }
     },

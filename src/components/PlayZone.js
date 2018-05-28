@@ -20,6 +20,7 @@ export default class PlayZone extends React.Component {
       <Card
         key={card.cardId}
         holder={"playZone"}
+        cardStyle={"card-playZone"}
         frontImg={card.frontImg}
         rotate={angle}
       />
@@ -31,10 +32,10 @@ export default class PlayZone extends React.Component {
   }
 
   render() {
-    if (this.state.cards.length != playZoneCards.length){
-        var topCard = this.state.cards[this.state.cards.length-1];
-        var newCard = this.createPlayZoneCard(topCard);
-        this.putPlayZoneCard(newCard);
+    if (this.state.cards.length !== playZoneCards.length){
+      const topCard = this.state.cards[this.state.cards.length - 1];
+      const newCard = this.createPlayZoneCard(topCard);
+      this.putPlayZoneCard(newCard);
     }
 
     return (

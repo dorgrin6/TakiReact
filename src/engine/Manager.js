@@ -17,12 +17,16 @@ const manager = (function() {
     onChangeColor: eventFactory.createEvent(), // event represents "ChangeColor" card on playZone
     onColorChanged: eventFactory.createEvent(), // event represents that color of "ChangeColor" was changed
     onDeckRefill: eventFactory.createEvent(),
-    UIFunction: boardState => {}, // set by Board to be updateUI(UIComponents)
-    // receives a map of components to update
+    CBUpdateUIComponents: () => {}, // set by Board to be updateUI(UIComponents)
+    // CBPlayerChanged: () => {},
 
-    setUIUpdateFunction: function(func){
-      this.UIFunction = func;
+    setCBUIUpdateFunction: function(func) {
+      this.CBUpdateUIComponents = func;
     },
+
+    // setCBPlayerChanged: function(func) {
+    //   this.CBPlayerChanged = func;
+    // },
 
     updateUI: function() {
       const boardState = {
@@ -33,7 +37,7 @@ const manager = (function() {
         deck: manager.deck
       };
 
-      manager.UIFunction(boardState);
+      manager.CBUpdateUIComponents(boardState);
     },
 
     drawCard: function() {
@@ -97,6 +101,7 @@ const manager = (function() {
 
       // this will swap player (round robin)
       manager.setNextPlayerAsActive();
+      // manager.CBPlayerChanged(manager.getActivePlayer());
       activePlayer = manager.getActivePlayer();
       activePlayer.startTurn();
     },

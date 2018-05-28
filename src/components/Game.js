@@ -21,7 +21,7 @@ export default class Game extends React.Component {
   }
 
   componentWillMount() {
-      manager.setUIUpdateFunction(this.updateUI.bind(this));
+      manager.setCBUIUpdateFunction(this.updateUI.bind(this));
       manager.updateUI();
   }
 
