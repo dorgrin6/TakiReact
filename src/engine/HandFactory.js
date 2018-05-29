@@ -33,6 +33,13 @@ const handFactory = (function() {
               return this.cards[i];
             }
           }
+        },
+
+        copyState: function(){
+          return{
+            cards: this.cards.slice(),
+            legalCards: this.legalCards.slice()
+          };
         }
       };
     }

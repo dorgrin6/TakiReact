@@ -20,24 +20,29 @@ const manager = (function() {
 
     CBUpdateUIComponents: () => {}, // set by Board to be updateUI(UIComponents)
     setOnPlayerChanged: () => {},
-
+      UIChangeColor: () => {},
+      UIColorChanged: color => {},
     // CBPlayerChanged: () => {},
 
     setCBUIUpdateFunction: function(func) {
       this.CBUpdateUIComponents = func;
     },
 
-    // setCBPlayerChanged: function(func) {
-    //   this.CBPlayerChanged = func;
-    // },
+    setUIChangeColorFunction: function(func){
+      this.UIChangeColor = func;
+    },
+
+    setUIColorChangedFunction: function(func){
+      this.UIColorChanged = func;
+    },
 
     updateUI: function() {
       const boardState = {
-        userPlayer: manager.players[0],
-        pcPlayer: manager.players[1],
-        stats: manager.stats,
-        playZone: manager.playZone,
-        deck: manager.deck
+          userPlayer: manager.players[0].copyState(),
+          pcPlayer: manager.players[1].copyState(),
+          stats: stats.copyState(),
+          playZone: manager.playZone.copyState(),
+          deck: manager.deck.copyState()
       };
 
       manager.CBUpdateUIComponents(boardState);
@@ -104,7 +109,6 @@ const manager = (function() {
 
       // this will swap player (round robin)
       manager.setNextPlayerAsActive();
-      // manager.CBPlayerChanged(manager.getActivePlayer());
       activePlayer = manager.getActivePlayer();
       activePlayer.startTurn();
     },
@@ -164,6 +168,7 @@ const manager = (function() {
         if (activePlayer.playerType === "pc") {
           activePlayer.selectColor(manager.colorDecision());
         } else {
+          manager.UIChangeColor();
           manager.onChangeColor.notify();
         }
       };

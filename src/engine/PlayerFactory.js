@@ -108,7 +108,12 @@ const playerFactory = (function() {
       player.selectColor = function(color) {
         const top = manager.playZone.popTheTop();
         top.color = color;
+        top.frontImg = top.frontImg.replace("colorful",color);
         manager.playZone.putOnTop(top);
+
+        console.log(manager.playZone);
+        manager.UIColorChanged(color);
+        manager.updateUI();
         manager.onColorChanged.notify({ color: color });
         if (player.inTakiMode.status === true) {
           cardFactory.funcOpenTaki();
@@ -209,6 +214,13 @@ const playerFactory = (function() {
 
       player.getLastCardCounter = function() {
         return player.stats.lastCardCounter;
+      };
+
+      player.copyState = function(){
+        return {
+          hand: player.hand.copyState(),
+          stats: Object.assign({}, player.stats)
+        };
       };
 
       player.turnStopWatch = stopWatchFactory.createStopWatch();

@@ -5,7 +5,6 @@ import manager from "../engine/Manager.js";
 export default class Deck extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
       legal: false
       // cardsAmount: props.deck.cards.length

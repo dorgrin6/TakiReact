@@ -6,10 +6,7 @@ export default class Hand extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      cards: this.props.hand.cards,
-      legalCards: this.props.hand.legalCards
-    };
+    this.cardsInHand = [];
   }
 
   cardSelected(cardId) {
