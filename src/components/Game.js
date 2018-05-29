@@ -23,13 +23,13 @@ export default class Game extends React.Component {
   }
 
   componentWillMount() {
-      manager.setCBUIUpdateFunction(this.updateUI.bind(this));
-      manager.setUIChangeColorFunction(this.toggleColorMenu.bind(this));
-      manager.updateUI();
+    manager.setCBUIUpdateFunction(this.updateUI.bind(this));
+    manager.setUIChangeColorFunction(this.toggleColorMenu.bind(this));
+    manager.updateUI();
   }
 
   updateUI(boardState) {
-    this.setState(() => ({board: boardState}));
+    this.setState(() => ({ board: boardState }));
   }
 
   render() {
@@ -38,22 +38,20 @@ export default class Game extends React.Component {
 
     return (
       <div>
-          <Board board={this.state.board}/>
-          {this.renderColorMenu()}
+        <Board board={this.state.board} />
+        {this.renderColorMenu()}
       </div>
     );
   }
 
-  toggleColorMenu(){
-      this.setState((prevState) => ({colorMenuShown: !prevState.colorMenuShown}));
+  toggleColorMenu() {
+    this.setState(prevState => ({ colorMenuShown: !prevState.colorMenuShown }));
   }
 
-  renderColorMenu(){
-    if (this.state.colorMenuShown){
-        return (
-            <ColorMenu onColorSelected={this.toggleColorMenu.bind(this)}></ColorMenu>
-        )
+  renderColorMenu() {
+    if (this.state.colorMenuShown) {
+      return <ColorMenu onColorSelected={this.toggleColorMenu.bind(this)} />;
     }
-      return null;
+    return null;
   }
 }

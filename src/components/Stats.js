@@ -43,8 +43,9 @@ export default class Stats extends React.Component {
     let lastCardCounter = "";
     let avgTime = "";
 
-    if (activePlayer && activePlayer.stats){
-      turnIndicator = activePlayer.playerType === "user" ? "Your turn" : "PC turn";
+    if (activePlayer && activePlayer.stats) {
+      turnIndicator =
+        activePlayer.playerType === "user" ? "Your turn" : "PC turn";
       lastCardCounter = activePlayer.stats.lastCardCounter;
       avgTime = activePlayer.getAvgTurnTime();
     }

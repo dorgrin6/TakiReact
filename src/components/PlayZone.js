@@ -9,17 +9,16 @@ export default class PlayZone extends React.Component {
 
     this.playZoneCards = [];
 
-    this.state = {
-    };
+    this.state = {};
   }
 
-  componentWillMount(){
+  componentWillMount() {
     manager.setUIColorChangedFunction(this.replaceColorfulWithColor.bind(this));
   }
 
-  replaceColorfulWithColor(color){
+  replaceColorfulWithColor(color) {
     let cards = this.props.playZone.cards;
-    let topCard = cards[cards.length-1];
+    let topCard = cards[cards.length - 1];
 
     //this.playZoneCards[this.playZoneCards.length-1].props.frontImg = topCard.frontImg.replace("colorful",color);
   }
@@ -39,15 +38,17 @@ export default class PlayZone extends React.Component {
     );
   }
 
-  putPlayZoneCard(card){
-      this.playZoneCards.push(card);
+  putPlayZoneCard(card) {
+    this.playZoneCards.push(card);
   }
 
   render() {
-    if (this.props.playZone.cards.length != this.playZoneCards.length){
-        var topCard = this.props.playZone.cards[this.props.playZone.cards.length-1];
-        var newCard = this.createPlayZoneCard(topCard);
-        this.putPlayZoneCard(newCard);
+    if (this.props.playZone.cards.length != this.playZoneCards.length) {
+      var topCard = this.props.playZone.cards[
+        this.props.playZone.cards.length - 1
+      ];
+      var newCard = this.createPlayZoneCard(topCard);
+      this.putPlayZoneCard(newCard);
     }
 
     return (

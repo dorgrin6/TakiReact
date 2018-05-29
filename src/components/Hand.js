@@ -56,7 +56,7 @@ export default class Hand extends React.Component {
     const cards = [];
     const propsCards = this.props.hand.cards;
 
-    console.log(this.props.id,":",this.props.hand.legalCards);
+    console.log(this.props.id, ":", this.props.hand.legalCards);
 
     for (let i = 0; i < propsCards.length; i++) {
       const newCard = this.createCard(propsCards[i]);
