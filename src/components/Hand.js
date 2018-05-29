@@ -1,7 +1,6 @@
 import React from "react";
 import Card from "./Card.js";
 import manager from "../engine/Manager";
-import "../css/cardDirections.css"
 
 export default class Hand extends React.Component {
   constructor(props) {

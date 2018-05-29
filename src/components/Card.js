@@ -1,6 +1,5 @@
 import React from "react";
 import "../css/style.css";
-import "../css/cardDirections.css";
 
 export default class Card extends React.Component {
   constructor(props) {
@@ -10,14 +9,36 @@ export default class Card extends React.Component {
     this.imageFormat = ".png";
   }
 
-  //TODO: this should handle the cardDirections
-  handleMouseOver(){
-  }
+  getCardTitle() {
+    const cardFile = this.props.frontImg;
+    const untilUnderscore = cardFile.substr(0, cardFile.indexOf("_"));
+    let res = "";
 
-  handleMouseOut(){
-  }
+    switch (untilUnderscore) {
+      case "change":
+        res = "Choose the color of the cards the next player plays";
+        break;
+      case "stop":
+        res = "Stop next player from playing";
+        break;
+      case "plus":
+        res = "Add another card with this one";
+        break;
+      case "superTaki":
+        res = "Play as many cards as you want, in the color of your choice";
+        break;
+      case "taki":
+        res = "Play as many cards as you want in the taki color";
+        break;
+      case "take2":
+        res = "The next player will have to pick up two cards";
+        break;
+      default:
+        res = untilUnderscore;
+    }
 
-  //TODO: this is not good because it enables the animation even when its not the user's turn
+    return res;
+  }
 
   render() {
     const image =
@@ -27,16 +48,15 @@ export default class Card extends React.Component {
     const imgSrc = this.cardsDir + image + this.imageFormat;
     const angle = this.props.rotate ? this.props.rotate : 0;
     const styles = { transform: "rotate(" + angle + "deg)" };
-    // const className = this.props.legal ? "legal-card" : "illegal-card";
+    const title = this.getCardTitle();
 
     return (
       <img
-        className={`${ this.props.cardStyle }`}
+        className={`${this.props.cardStyle}`}
         src={imgSrc}
         style={styles}
         onClick={this.props.onclick}
-        onMouseOver={this.handleMouseOver.bind(this)}
-        onMouseOut={this.handleMouseOut.bind(this)}
+        title={title}
       />
     );
   }

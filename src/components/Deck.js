@@ -23,6 +23,7 @@ export default class Deck extends React.Component {
       }
     }
 
+    res += " tooltip";
     return res;
   }
 
