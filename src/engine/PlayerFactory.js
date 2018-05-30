@@ -238,6 +238,11 @@ const playerFactory = (function() {
       const activePlayer = manager.getActivePlayer();
       const legalCards = this.hand.legalCards;
 
+      console.log("---------------pc player legal cards:");
+      console.log(activePlayer.hand.legalCards);
+
+
+
       if (!top) {
         console.error("pc turn with no cards in playzone");
         return false;
@@ -245,6 +250,7 @@ const playerFactory = (function() {
 
       if (top.type === TYPES.TAKE2 && activePlayer.mustTake > 0) {
         if (findCardInArray(legalCards, TYPES.TAKE2)) {
+          console.log("take2");
           playCard(findCardInArray(legalCards, TYPES.TAKE2));
         } else {
           activePlayer.drawWhenNoLegalCards();
@@ -252,12 +258,15 @@ const playerFactory = (function() {
       } else if (findCardInArray(legalCards, TYPES.TAKE2, top.color)) {
         playCard(findCardInArray(legalCards, TYPES.TAKE2, top.color));
       } else if (findCardInArray(legalCards, TYPES.STOP, top.color)) {
+        console.log("stop");
         playCard(findCardInArray(legalCards, TYPES.STOP, top.color));
       } else if (findCardInArray(legalCards, TYPES.PLUS, top.color)) {
+          console.log("plus");
         playCard(findCardInArray(legalCards, TYPES.PLUS, top.color));
       } else if (findCardInArray(legalCards, TYPES.SUPER_TAKI)) {
         playCard(findCardInArray(legalCards, TYPES.SUPER_TAKI));
       } else if (findCardInArray(legalCards, TYPES.TAKI, top.color)) {
+        console.log("taki");
         playCard(findCardInArray(legalCards, TYPES.TAKI, top.color));
       } else if (findCardInArray(legalCards, TYPES.VALUE, top.color)) {
         playCard(findCardInArray(legalCards, TYPES.VALUE, top.color));
@@ -274,6 +283,9 @@ const playerFactory = (function() {
       } else {
         activePlayer.drawWhenNoLegalCards();
       }
+      console.log("pc player ended");
+
+
     },
 
     startTurn: function() {

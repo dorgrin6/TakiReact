@@ -95,6 +95,7 @@ const manager = (function() {
 
     swapPlayer: function() {
       let activePlayer = manager.getActivePlayer();
+      manager.updateUI();
       if (manager.isGameEnd()) {
         stats.gamesAmount++;
         manager.onGameEnded.notify({ activePlayer: activePlayer });

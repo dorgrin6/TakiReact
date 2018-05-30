@@ -27,7 +27,6 @@ export default class Deck extends React.Component {
   }
 
   handleClick() {
-    console.log(manager.getActivePlayer().hand.legalCards);
     manager.getActivePlayer().drawWhenNoLegalCards();
   }
 
