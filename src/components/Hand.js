@@ -28,16 +28,16 @@ export default class Hand extends React.Component {
 
   createCard(currentCard) {
     const activePlayer = manager.getActivePlayer();
-    let cardStyle = "card";
-    if (activePlayer.playerType === "user" && this.props.id === "user") {
+    let cardStyle = 'card';
+    if (activePlayer.playerType === 'user' && this.props.id === 'user') {
       if (manager.isCardLegal(currentCard)) {
-        cardStyle = "legal-card";
+        cardStyle = 'legal-card';
       } else {
-        cardStyle = "illegal-card";
+        cardStyle = 'illegal-card';
       }
     }
 
-    const handleClick = function() {
+    const handleClick = function () {
       this.cardSelected(currentCard.cardId);
     };
 
@@ -45,6 +45,7 @@ export default class Hand extends React.Component {
       <Card
         holder={this.props.id}
         key={currentCard.cardId}
+        description={currentCard.description}
         cardStyle={cardStyle}
         frontImg={currentCard.frontImg}
         onclick={handleClick.bind(this)}
@@ -60,6 +61,6 @@ export default class Hand extends React.Component {
       cards.push(newCard);
     }
 
-    return <div className={"hand board-row"}>{cards}</div>;
+    return <div className="hand board-row">{cards}</div>;
   }
 }

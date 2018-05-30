@@ -30,6 +30,7 @@ const cardFactory = (function() {
         color: _color,
         frontImg: _sourceImg,
         backImg: "card_back",
+        description: "",
 
         isValueCard: function() {
           return this.type === TYPES.VALUE;
@@ -60,27 +61,38 @@ const cardFactory = (function() {
         }
       };
 
+      // Append card function and description
       switch (_type) {
         case TYPES.VALUE:
           card.value = value;
+          card.description = value;
           break;
         case TYPES.TAKI:
           card.activate = cardFactory.funcOpenTaki;
+          card.description =
+            'Play as many cards as you want in the Taki color and press "Close Taki"';
           break;
         case TYPES.CHANGE:
           card.activate = cardFactory.funcChangeColor;
+          card.description =
+            "Choose the color of the cards the next player plays";
           break;
         case TYPES.TAKE2:
           card.activate = cardFactory.funcTake2;
+          card.description = "The next player will have to pick up two cards";
           break;
         case TYPES.STOP:
           card.activate = cardFactory.funcStop;
+          card.description = "Stop next player from playing";
           break;
         case TYPES.PLUS:
           card.activate = cardFactory.funcPlus;
+          card.description = "Add another card with this same color";
           break;
         case TYPES.SUPER_TAKI:
           card.activate = cardFactory.funcSuperTaki;
+          card.description =
+            'Play as many cards as you want, in the color of your choice, and press "Close Taki"';
           break;
       }
       return card;

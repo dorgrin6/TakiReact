@@ -1,7 +1,8 @@
+/* eslint-disable react/no-did-mount-set-state */
 import React from "react";
 import "../css/styleStatsMenu.css";
-import stats from "../engine/Stats.js";
-import manager from "../engine/Manager.js";
+import stats from "../engine/Stats";
+import manager from "../engine/Manager";
 
 export default class Stats extends React.Component {
   constructor(props) {
@@ -9,25 +10,20 @@ export default class Stats extends React.Component {
 
     this.state = {
       turnAmount: 1,
-      time: "",
-      elapsedTimeInterval: {},
-      activePlayer: {}
+      time: '',
+      activePlayer: {},
     };
   }
 
   componentDidMount() {
     this.elapsedTimeInterval = setInterval(() => {
-      this.setState(() => {
-        return {
-          time: stats.getElapsedTime(),
-          activePlayer: manager.getActivePlayer()
-        };
-      });
+      this.setState(() => ({
+        time: stats.getElapsedTime(),
+        activePlayer: manager.getActivePlayer(),
+      }));
     }, 1000);
 
-    this.setState(() => {
-      return { elapsedTimeInterval: this.elapsedTimeInterval };
-    });
+    this.setState(() => ({ elapsedTimeInterval: this.elapsedTimeInterval }));
   }
 
   handleQuit() {
@@ -39,28 +35,29 @@ export default class Stats extends React.Component {
   render() {
     const activePlayer = this.state.activePlayer;
 
-    let turnIndicator = "";
-    let lastCardCounter = "";
-    let avgTime = "";
+    let turnIndicator = '';
+    let lastCardCounter = '';
+    let avgTime = '';
 
-    if (activePlayer && activePlayer.stats){
-      turnIndicator = activePlayer.playerType === "user" ? "Your turn" : "PC turn";
+    if (activePlayer && activePlayer.stats) {
+      turnIndicator =
+        activePlayer.playerType === 'user' ? 'Your turn' : 'PC turn';
       lastCardCounter = activePlayer.stats.lastCardCounter;
       avgTime = activePlayer.getAvgTurnTime();
     }
 
     return (
-      <div className={"stats"}>
-        <img src={"../src/textures/board.png"} id={"stats-board"} />
-        <div className={"stats-text"}>
+      <div className="stats">
+        <img src="../src/textures/board.png" id="stats-board" />
+        <div className="stats-text">
           <p>Turns: {this.state.turnAmount}</p>
           <p>Time: {this.state.time}</p>
           <p>{turnIndicator}</p>
           <p>Last card:{lastCardCounter}</p>
           <p>Avg time per turn:{avgTime}</p>
           <button
-            className={"stats-button button-UI"}
-            id={"quit-button"}
+            className="stats-button button-UI"
+            id="quit-button"
             onClick={this.handleQuit.bind(this)}
           >
             Quit
