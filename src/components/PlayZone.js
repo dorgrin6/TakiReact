@@ -2,7 +2,6 @@ import React from "react";
 import Card from "./Card.js";
 import manager from "../engine/Manager.js";
 
-//const playZoneCards=[];
 export default class PlayZone extends React.Component {
   constructor(props) {
     super(props);
@@ -17,10 +16,9 @@ export default class PlayZone extends React.Component {
   }
 
   replaceColorfulWithColor(color) {
-    let cards = this.props.playZone.cards;
-    let topCard = cards[cards.length - 1];
+    const cards = this.props.playZone.cards;
+    const topCard = cards[cards.length - 1];
 
-    //this.playZoneCards[this.playZoneCards.length-1].props.frontImg = topCard.frontImg.replace("colorful",color);
   }
 
   createPlayZoneCard(card) {
@@ -30,8 +28,8 @@ export default class PlayZone extends React.Component {
     return (
       <Card
         key={card.cardId}
-        holder={"playZone"}
-        cardStyle={"card-playZone"}
+        holder="playZone"
+        cardStyle="card-playZone"
         frontImg={card.frontImg}
         rotate={angle}
       />
@@ -43,16 +41,16 @@ export default class PlayZone extends React.Component {
   }
 
   render() {
-    if (this.props.playZone.cards.length != this.playZoneCards.length) {
-      var topCard = this.props.playZone.cards[
+    if (this.props.playZone.cards.length !== this.playZoneCards.length) {
+      const topCard = this.props.playZone.cards[
         this.props.playZone.cards.length - 1
       ];
-      var newCard = this.createPlayZoneCard(topCard);
+      const newCard = this.createPlayZoneCard(topCard);
       this.putPlayZoneCard(newCard);
     }
 
     return (
-      <div className={"playZone"} id={"playZone"}>
+      <div className="playZone" id="playZone">
         {this.playZoneCards}
       </div>
     );

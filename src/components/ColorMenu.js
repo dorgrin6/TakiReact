@@ -1,40 +1,40 @@
 import React from "react";
 import "../css/style.css";
 import "../css/styleColorMenu.css";
-import manager from "../engine/Manager.js";
-import ColorOption from "./ColorOption.js";
+import manager from "../engine/Manager";
+import ColorOption from "./ColorOption";
 
 export default class ColorMenu extends React.Component {
+  colorSelected(color) {
+    manager.getActivePlayer().selectColor(color);
+    this.props.onColorSelected();
+  }
+
   render() {
     return (
-      <div className={"menu-background"} id={"color-menu"}>
-        <div className={"menu-content"}>
+      <div className="menu-background" id="color-menu">
+        <div className="menu-content">
           <h2>Choose color</h2>
-          <div className={"color-panel"}>
+          <div className="color-panel">
             <ColorOption
-              color={"red"}
+              color="red"
               onColorSelected={this.colorSelected.bind(this)}
             />
             <ColorOption
-              color={"yellow"}
+              color="yellow"
               onColorSelected={this.colorSelected.bind(this)}
             />
             <ColorOption
-              color={"green"}
+              color="green"
               onColorSelected={this.colorSelected.bind(this)}
             />
             <ColorOption
-              color={"blue"}
+              color="blue"
               onColorSelected={this.colorSelected.bind(this)}
             />
           </div>
         </div>
       </div>
     );
-  }
-
-  colorSelected(color) {
-    manager.getActivePlayer().selectColor(color);
-    this.props.onColorSelected();
   }
 }

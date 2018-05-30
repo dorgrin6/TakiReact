@@ -11,7 +11,7 @@ export default class Game extends React.Component {
       board: {},
       history: [],
       stepNumber: 0,
-      colorMenuShown: false
+      colorMenuShown: false,
     };
 
     this.runGame();
@@ -33,8 +33,8 @@ export default class Game extends React.Component {
   }
 
   render() {
-    //let board = <Board board={this.state.board}/>;
-    //this.state.history.push(board);
+    // let board = <Board board={this.state.board}/>;
+    // this.state.history.push(board);
 
     return (
       <div>
