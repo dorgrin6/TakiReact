@@ -112,7 +112,6 @@ const playerFactory = (function() {
         manager.playZone.putOnTop(top);
 
         console.log(manager.playZone);
-        manager.UIColorChanged(color);
         manager.updateUI();
         manager.onColorChanged.notify({ color: color });
         if (player.inTakiMode.status === true) {
@@ -238,14 +237,13 @@ const playerFactory = (function() {
       const findCardInArray = cardFactory.findCardInArray;
       const activePlayer = manager.getActivePlayer();
       const legalCards = this.hand.legalCards;
-      console.log("PC legalCards:",legalCards);
 
       if (!top) {
         console.error("pc turn with no cards in playzone");
         return false;
       }
 
-      if (top.type === TYPES.TAKE2) {
+      if (top.type === TYPES.TAKE2 && activePlayer.mustTake > 0) {
         if (findCardInArray(legalCards, TYPES.TAKE2)) {
           playCard(findCardInArray(legalCards, TYPES.TAKE2));
         } else {

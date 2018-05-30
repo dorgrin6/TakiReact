@@ -21,7 +21,6 @@ const manager = (function() {
     CBUpdateUIComponents: () => {}, // set by Board to be updateUI(UIComponents)
     setOnPlayerChanged: () => {},
       UIChangeColor: () => {},
-      UIColorChanged: color => {},
     // CBPlayerChanged: () => {},
 
     setCBUIUpdateFunction: function(func) {
@@ -30,10 +29,6 @@ const manager = (function() {
 
     setUIChangeColorFunction: function(func){
       this.UIChangeColor = func;
-    },
-
-    setUIColorChangedFunction: function(func){
-      this.UIColorChanged = func;
     },
 
     updateUI: function() {
@@ -82,7 +77,6 @@ const manager = (function() {
         return card.type === "take2";
       }
 
-      // not in taki mode
       return (
         topPlayZone.compareColor(card) ||
         (topPlayZone.isValueCard() &&

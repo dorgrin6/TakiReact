@@ -41,10 +41,12 @@ export default class Card extends React.Component {
   }
 
   render() {
-    const image =
-      this.props.holder === "user" || this.props.holder === "playZone"
-        ? this.props.frontImg
-        : this.backCardImgSrc;
+    //TODO: change it back, after debugging
+    // const image =
+    //   this.props.holder === "user" || this.props.holder === "playZone"
+    //     ? this.props.frontImg
+    //     : this.backCardImgSrc;
+    const image = this.props.frontImg;
     const imgSrc = this.cardsDir + image + this.imageFormat;
     const angle = this.props.rotate ? this.props.rotate : 0;
     const styles = { transform: "rotate(" + angle + "deg)" };
