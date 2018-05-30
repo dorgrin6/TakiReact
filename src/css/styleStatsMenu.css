@@ -1,7 +1,7 @@
 #stats-board {
     width: 100%;
     height: auto;
-    padding-left: 10%;
+    padding-left: 5%;
 }
 
 .stats {
@@ -16,9 +16,13 @@
     color: white;
 }
 
+/*#stats-board > table{*/
+    /*border: 0 solid transparent;*/
+/*}*/
+
 .stats-text {
     top: 50%;
-    left: 50%;
+    left: 40%;
     transform: translate(-50%, -50%);
 }
 
@@ -28,10 +32,10 @@
     font-family: "Segoe Print", serif;
     color: black;
     left: 100%;
-    top: 50%;
-    margin-left: 10%;
+    top: 35%;
     text-align: center;
     text-decoration: none;
     display: inline-block;
     padding-top: 10px;
+    height: auto;
 }

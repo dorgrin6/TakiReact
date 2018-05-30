@@ -1,4 +1,3 @@
-/* eslint-disable react/no-did-mount-set-state */
 import React from "react";
 import "../css/styleStatsMenu.css";
 import stats from "../engine/Stats";
@@ -10,8 +9,8 @@ export default class Stats extends React.Component {
 
     this.state = {
       turnAmount: 1,
-      time: '',
-      activePlayer: {},
+      time: "",
+      activePlayer: {}
     };
   }
 
@@ -19,7 +18,7 @@ export default class Stats extends React.Component {
     this.elapsedTimeInterval = setInterval(() => {
       this.setState(() => ({
         time: stats.getElapsedTime(),
-        activePlayer: manager.getActivePlayer(),
+        activePlayer: manager.getActivePlayer()
       }));
     }, 1000);
 
@@ -35,13 +34,13 @@ export default class Stats extends React.Component {
   render() {
     const activePlayer = this.state.activePlayer;
 
-    let turnIndicator = '';
-    let lastCardCounter = '';
-    let avgTime = '';
+    let turnIndicator = "";
+    let lastCardCounter = "";
+    let avgTime = "";
 
     if (activePlayer && activePlayer.stats) {
       turnIndicator =
-        activePlayer.playerType === 'user' ? 'Your turn' : 'PC turn';
+        activePlayer.playerType === "user" ? "Your turn" : "PC turn";
       lastCardCounter = activePlayer.stats.lastCardCounter;
       avgTime = activePlayer.getAvgTurnTime();
     }
@@ -50,11 +49,11 @@ export default class Stats extends React.Component {
       <div className="stats">
         <img src="../src/textures/board.png" id="stats-board" />
         <div className="stats-text">
-          <p>Turns: {this.state.turnAmount}</p>
           <p>Time: {this.state.time}</p>
           <p>{turnIndicator}</p>
-          <p>Last card:{lastCardCounter}</p>
-          <p>Avg time per turn:{avgTime}</p>
+          <p>Last card: {lastCardCounter}</p>
+          <p>Avg time per turn: {avgTime}</p>
+
           <button
             className="stats-button button-UI"
             id="quit-button"

@@ -73,7 +73,7 @@ th {
     transition: 0.3s;
     /* rounded border */
     border-radius: 10%;
-    width: 8%;
+    width: 10%;
 }
 
 .card-playZone {
@@ -86,7 +86,7 @@ th {
 
 .container {
     display: grid;
-    grid-template-columns: 25% 50% 25%;
+    grid-template-columns: 33% 33% 33%;
     grid-template-areas: "stats playZone deck";
 }
 

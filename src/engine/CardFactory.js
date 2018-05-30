@@ -75,19 +75,19 @@ const cardFactory = (function() {
         case TYPES.CHANGE:
           card.activate = cardFactory.funcChangeColor;
           card.description =
-            "Choose the color of the cards the next player plays";
+            'Choose the color of the cards the next player plays';
           break;
         case TYPES.TAKE2:
           card.activate = cardFactory.funcTake2;
-          card.description = "The next player will have to pick up two cards";
+          card.description = 'The next player will have to pick up two cards';
           break;
         case TYPES.STOP:
           card.activate = cardFactory.funcStop;
-          card.description = "Stop next player from playing";
+          card.description = 'Stop next player from playing';
           break;
         case TYPES.PLUS:
           card.activate = cardFactory.funcPlus;
-          card.description = "Add another card with this same color";
+          card.description = 'After playing this, play another card with this same color';
           break;
         case TYPES.SUPER_TAKI:
           card.activate = cardFactory.funcSuperTaki;
