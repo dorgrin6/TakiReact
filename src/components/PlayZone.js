@@ -22,7 +22,6 @@ export default class PlayZone extends React.Component {
     this.cardsWithAngle.push(playZoneCard);
   }
 
-  renderPlayZoneCard(card) {
   checkTakiMode() {
     let activePlayer = manager.getActivePlayer();
     return (activePlayer.inTakiMode.status === true && activePlayer.playerType === "user");

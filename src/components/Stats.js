@@ -45,6 +45,11 @@ export default class Stats extends React.Component {
       avgTime = activePlayer.getAvgTurnTime();
     }
 
+    if (manager.isGameEnd()){
+      stats.gameWatch.stop();
+      clearInterval(this.elapsedTimeInterval);
+    }
+
     return (
       <div className="stats">
         <img src="../src/textures/board.png" id="stats-board" />

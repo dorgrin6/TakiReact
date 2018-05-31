@@ -11,6 +11,7 @@ const manager = (function() {
     players: [],
     playerTurn: 0,
     playZone: playZone,
+    isGameEnded: false,
     onPlayerChanged: eventFactory.createEvent(),
     onGameEnded: eventFactory.createEvent(),
     onTakiCard: eventFactory.createEvent(), // event represents "Taki" card on playZone
@@ -89,23 +90,31 @@ const manager = (function() {
       );
     },
 
-    isGameEnd: function() {
-      return manager.getActivePlayer().hand.cards.length === 0;
+    isGameEnd: function(){
+      return manager.isGameEnded;
+    },
+
+    gameEnded: function() {
+      stats.gamesAmount++;
+      manager.isGameEnded = true;
     },
 
     swapPlayer: function() {
       let activePlayer = manager.getActivePlayer();
+      if (activePlayer.hand.cards.length === 0){
+        manager.gameEnded();
+      }
       manager.updateUI();
-      if (manager.isGameEnd()) {
-        stats.gamesAmount++;
-        manager.onGameEnded.notify({ activePlayer: activePlayer });
+
+      if (manager.isGameEnded){
         return;
       }
-
-      // this will swap player (round robin)
-      manager.setNextPlayerAsActive();
-      activePlayer = manager.getActivePlayer();
-      activePlayer.startTurn();
+      else {
+          // this will swap player (round robin)
+          manager.setNextPlayerAsActive();
+          activePlayer = manager.getActivePlayer();
+          activePlayer.startTurn();
+      }
     },
 
     getActivePlayer: function() {

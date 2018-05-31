@@ -3,6 +3,7 @@ import "../css/style.css";
 import Board from "./Board";
 import manager from "../engine/Manager.js";
 import ColorMenu from "./ColorMenu";
+import EndGameMenu from "./EndGameMenu.js";
 
 export default class Game extends React.Component {
   constructor(props) {
@@ -40,6 +41,7 @@ export default class Game extends React.Component {
       <div>
         <Board board={this.state.board} />
         {this.renderColorMenu()}
+        {manager.isGameEnd() ? <EndGameMenu/> : null}
       </div>
     );
   }
