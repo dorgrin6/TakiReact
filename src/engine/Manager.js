@@ -101,9 +101,11 @@ const manager = (function() {
 
     swapPlayer: function() {
       let activePlayer = manager.getActivePlayer();
+      activePlayer.endTurn();
       if (activePlayer.hand.cards.length === 0){
         manager.gameEnded();
       }
+
       manager.updateUI();
 
       if (manager.isGameEnded){
@@ -151,6 +153,7 @@ const manager = (function() {
         manager.players[i].init();
         manager.players[i].dealInitialCardsToHand();
       }
+
       manager.playerTurn = 0;
       manager.players[manager.playerTurn].startTurn();
     },
@@ -178,7 +181,6 @@ const manager = (function() {
       };
       cardFactory.funcStop = function() {
         manager.players[manager.getNextPlayer()].isStopped = true;
-        manager.getActivePlayer().endTurn();
         manager.swapPlayer();
       };
       cardFactory.funcPlus = function() {
@@ -192,7 +194,6 @@ const manager = (function() {
 
         nextPlayer.mustTake = activePlayer.mustTake + 2;
         activePlayer.mustTake = 0;
-        activePlayer.endTurn();
         manager.swapPlayer();
       };
       cardFactory.funcSuperTaki = function() {

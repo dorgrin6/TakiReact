@@ -65,26 +65,24 @@ const playerFactory = (function() {
 
       player.removedCardFromHand = function(card) {
         player.hand.removeCard(card);
-        //manager.updateHand({ hand: manager.getActivePlayer().hand });
-
-        // player.onRemovedCardFromHand.notify({ card: card });
+        manager.updateUI();
       };
 
       player.putCardOnPlayZone = function(card) {
         manager.playZone.putOnTop(card);
         manager.updateUI();
-
-        // player.onPutCardInPlayZone.notify({ card: card });
       };
 
       player.drawCardFromDeck = function() {
         let card;
-        if (player.mustTake > 0) {
+        if (!player.isAbleToDrawFromDeck()){
+          return;
+        }
+        else if (player.mustTake > 0) {
           for (let i = 0; i < player.mustTake; i++) {
             card = manager.drawCard();
             player.hand.cards.push(card);
             manager.updateUI();
-            // player.onDrawCardFromDeck.notify({ player: player, card: card });
           }
 
           player.mustTake = 0;
@@ -92,17 +90,19 @@ const playerFactory = (function() {
           card = manager.drawCard();
           player.hand.cards.push(card);
           manager.updateUI();
-          // player.onDrawCardFromDeck.notify({ player: player, card: card });
         }
       };
 
       player.drawWhenNoLegalCards = function() {
-        if (player.hand.legalCards.length > 0) {
+        if (!player.isAbleToDrawFromDeck()) {
           return;
         }
         this.drawCardFromDeck();
-        this.endTurn();
         manager.swapPlayer();
+      };
+
+      player.isAbleToDrawFromDeck = function(){
+        return (!player.inTakiMode.status && player.hand.legalCards.length === 0);
       };
 
       player.selectColor = function(color) {
@@ -111,13 +111,11 @@ const playerFactory = (function() {
         top.frontImg = top.frontImg.replace("colorful",color);
         manager.playZone.putOnTop(top);
 
-        console.log(manager.playZone);
         manager.updateUI();
         manager.onColorChanged.notify({ color: color });
         if (player.inTakiMode.status === true) {
           cardFactory.funcOpenTaki();
         } else {
-          this.endTurn();
           manager.swapPlayer();
         }
       };
@@ -131,7 +129,6 @@ const playerFactory = (function() {
           player.inTakiMode.takiId = {};
           player.handleCard(top);
         } else {
-          player.endTurn();
           manager.swapPlayer();
         }
       };
@@ -166,7 +163,6 @@ const playerFactory = (function() {
             card.activate();
           } else {
             // means this is a value card
-            player.endTurn();
             manager.swapPlayer();
           }
         }
@@ -229,63 +225,82 @@ const playerFactory = (function() {
       return player;
     },
 
+
+    tryPlayOptions: function(legalCards, options){
+      const findCardInArray = cardFactory.findCardInArray;
+      const playCard = this.playCard;
+      let isPlayed = false;
+
+      for(var i = 0; i<options.length && !isPlayed;i++){
+        let type = options[i].type;
+        let color = options[i].color;
+        let value = options[i].value;
+        if (findCardInArray(legalCards, type, color, value)) {
+          playCard(findCardInArray(legalCards, type, color, value));
+          isPlayed = true;
+        }
+      }
+      return isPlayed;
+    },
+
     // this function is in charge of the pc logic
     determinePCPlay: function() {
-      const playCard = this.playCard;
-      let top = manager.playZone.getTop();
+      const tryPlayOptions = playerFactory.tryPlayOptions.bind(this);
+      const top = manager.playZone.getTop();
       const TYPES = cardFactory.getTypes();
-      const findCardInArray = cardFactory.findCardInArray;
       const activePlayer = manager.getActivePlayer();
       const legalCards = this.hand.legalCards;
-
-      console.log("---------------pc player legal cards:");
-      console.log(activePlayer.hand.legalCards);
-
-
+      let isPlayed = false;
 
       if (!top) {
         console.error("pc turn with no cards in playzone");
         return false;
       }
 
-      if (top.type === TYPES.TAKE2 && activePlayer.mustTake > 0) {
-        if (findCardInArray(legalCards, TYPES.TAKE2)) {
-          console.log("take2");
-          playCard(findCardInArray(legalCards, TYPES.TAKE2));
-        } else {
+      //if PC is in the middle of taki mode
+      if (activePlayer.inTakiMode.status){
+        let options =[
+          {type: TYPES.TAKI, color: top.color, value: undefined},
+          {type: TYPES.PLUS, color: top.color, value: undefined},
+          {type: TYPES.STOP, color: top.color, value: undefined},
+          {type: TYPES.VALUE, color: top.color, value: undefined},
+          {type: TYPES.TAKE2, color: top.color, value: undefined}
+        ];
+
+        isPlayed = tryPlayOptions(legalCards, options);
+        if (!isPlayed){
+          activePlayer.closeTaki();
+        }
+      }
+      //if PC has to respond over take2 card
+      else if(activePlayer.mustTake > 0){
+        let options =[
+          {type: TYPES.TAKE2, color: undefined, value: undefined}
+        ];
+
+        isPlayed = tryPlayOptions(legalCards, options);
+        if (!isPlayed){
           activePlayer.drawWhenNoLegalCards();
         }
-      } else if (findCardInArray(legalCards, TYPES.TAKE2, top.color)) {
-        playCard(findCardInArray(legalCards, TYPES.TAKE2, top.color));
-      } else if (findCardInArray(legalCards, TYPES.STOP, top.color)) {
-        console.log("stop");
-        playCard(findCardInArray(legalCards, TYPES.STOP, top.color));
-      } else if (findCardInArray(legalCards, TYPES.PLUS, top.color)) {
-          console.log("plus");
-        playCard(findCardInArray(legalCards, TYPES.PLUS, top.color));
-      } else if (findCardInArray(legalCards, TYPES.SUPER_TAKI)) {
-        playCard(findCardInArray(legalCards, TYPES.SUPER_TAKI));
-      } else if (findCardInArray(legalCards, TYPES.TAKI, top.color)) {
-        console.log("taki");
-        playCard(findCardInArray(legalCards, TYPES.TAKI, top.color));
-      } else if (findCardInArray(legalCards, TYPES.VALUE, top.color)) {
-        playCard(findCardInArray(legalCards, TYPES.VALUE, top.color));
-      } else if (
-        findCardInArray(legalCards, TYPES.VALUE, undefined, top.value)
-      ) {
-        playCard(
-          findCardInArray(legalCards, TYPES.VALUE, undefined, top.value)
-        );
-      } else if (findCardInArray(legalCards, TYPES.CHANGE)) {
-        playCard(findCardInArray(legalCards, TYPES.CHANGE));
-      } else if (activePlayer.inTakiMode.status) {
-        activePlayer.closeTaki();
-      } else {
-        activePlayer.drawWhenNoLegalCards();
       }
-      console.log("pc player ended");
+      //if no special situation occurred then PC acts normally
+      else{
+        let options =[
+          {type: TYPES.TAKE2, color: undefined, value: undefined},
+          {type: TYPES.STOP, color: undefined, value: undefined},
+          {type: TYPES.PLUS, color: undefined, value: undefined},
+          {type: TYPES.TAKI, color: undefined, value: undefined},
+          {type: TYPES.VALUE, color: top.color, value: undefined},
+          {type: TYPES.VALUE, color: undefined, value: undefined},
+          {type: TYPES.SUPER_TAKI, color: undefined, value: undefined},
+          {type: TYPES.CHANGE, color: undefined, value: undefined}
+        ];
 
-
+        isPlayed = tryPlayOptions(legalCards, options);
+        if (!isPlayed){
+            activePlayer.drawWhenNoLegalCards();
+        }
+      }
     },
 
     startTurn: function() {
@@ -296,7 +311,6 @@ const playerFactory = (function() {
 
       if (this.isStopped) {
         this.isStopped = false;
-        this.endTurn();
         manager.swapPlayer();
       } else {
         this.stats.turnAmount++;

@@ -7,7 +7,6 @@ export default class Deck extends React.Component {
     super(props);
     this.state = {
       legal: false,
-      // cardsAmount: props.deck.cards.length
     };
   }
 
@@ -15,7 +14,7 @@ export default class Deck extends React.Component {
     let res = 'card-deck';
     const activePlayer = manager.getActivePlayer();
     if (activePlayer.playerType === 'user') {
-      if (activePlayer.hand.legalCards.length === 0) {
+      if (activePlayer.isAbleToDrawFromDeck()) {
         res += ' legal-card';
       } else {
         res += ' illegal-card';

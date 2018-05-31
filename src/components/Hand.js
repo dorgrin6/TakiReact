@@ -3,26 +3,11 @@ import Card from "./Card.js";
 import manager from "../engine/Manager";
 
 export default class Hand extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.cardsInHand = [];
-  }
-
   cardSelected(cardId) {
-    const player = manager.getActivePlayer();
-    const cards = player.hand.cards;
-
-    if (player.playerType !== this.props.id) {
-      return;
-    }
-
-    for (let i = 0; i < cards.length; i++) {
-      if (cards[i].cardId === cardId) {
-        const card = player.hand.getCardById(cardId);
-        player.playCard(card);
-        break;
-      }
+    const activePlayer = manager.getActivePlayer();
+    if (activePlayer.playerType === 'user' && this.props.id === 'user'){
+      const card = activePlayer.hand.getCardById(cardId);
+      activePlayer.playCard(card);
     }
   }
 
