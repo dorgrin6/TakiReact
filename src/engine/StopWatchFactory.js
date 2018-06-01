@@ -35,6 +35,7 @@ const stopWatchFactory = (function() {
       };
 
       stopWatch.reset = function() {
+        stopWatch.elapsedMillisecs = 0;
         stopWatch.startMillisecs = 0;
       };
 

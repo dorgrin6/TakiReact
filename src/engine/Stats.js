@@ -1,4 +1,5 @@
 import stopWatchFactory from "../engine/StopWatchFactory.js";
+
 const stats = (function() {
   const gameWatch = stopWatchFactory.createStopWatch();
 
@@ -8,6 +9,10 @@ const stats = (function() {
     gameWatch: gameWatch,
     getElapsedTime: function() {
       return stats.gameWatch.getElapsedTime();
+    },
+
+    resetGameWatch: function(){
+      this.gameWatch.reset();
     },
 
     copyState: function() {

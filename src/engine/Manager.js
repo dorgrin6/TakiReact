@@ -20,25 +20,23 @@ const manager = (function() {
     onDeckRefill: eventFactory.createEvent(),
 
     CBUpdateUIComponents: () => {}, // set by Board to be updateUI(UIComponents)
-    setOnPlayerChanged: () => {},
-      UIChangeColor: () => {},
-    // CBPlayerChanged: () => {},
+    UIChangeColor: () => {},
 
     setCBUIUpdateFunction: function(func) {
       this.CBUpdateUIComponents = func;
     },
 
-    setUIChangeColorFunction: function(func){
+    setUIChangeColorFunction: function(func) {
       this.UIChangeColor = func;
     },
 
     updateUI: function() {
       const boardState = {
-          userPlayer: manager.players[0].copyState(),
-          pcPlayer: manager.players[1].copyState(),
-          stats: stats.copyState(),
-          playZone: manager.playZone.copyState(),
-          deck: manager.deck.copyState()
+        userPlayer: manager.players[0].copyState(),
+        pcPlayer: manager.players[1].copyState(),
+        stats: stats.copyState(),
+        playZone: manager.playZone.copyState(),
+        deck: manager.deck.copyState()
       };
 
       manager.CBUpdateUIComponents(boardState);
@@ -90,7 +88,7 @@ const manager = (function() {
       );
     },
 
-    isGameEnd: function(){
+    isGameEnd: function() {
       return manager.isGameEnded;
     },
 
@@ -102,20 +100,17 @@ const manager = (function() {
     swapPlayer: function() {
       let activePlayer = manager.getActivePlayer();
       activePlayer.endTurn();
-      if (activePlayer.hand.cards.length === 0){
+      if (activePlayer.hand.cards.length === 0) {
         manager.gameEnded();
       }
 
       manager.updateUI();
 
-      if (manager.isGameEnded){
-        return;
-      }
-      else {
-          // this will swap player (round robin)
-          manager.setNextPlayerAsActive();
-          activePlayer = manager.getActivePlayer();
-          activePlayer.startTurn();
+      if (!manager.isGameEnded) {
+        // this will swap player (round robin)
+        manager.setNextPlayerAsActive();
+        activePlayer = manager.getActivePlayer();
+        activePlayer.startTurn();
       }
     },
 
@@ -139,6 +134,7 @@ const manager = (function() {
     init: function() {
       stats.gameWatch.start();
       manager.deck.createDeck();
+      manager.isGameEnded = false;
 
       // draw the first card to playZone
       let card = manager.drawCard();
@@ -241,4 +237,5 @@ const manager = (function() {
   };
 })();
 
+window.manager = manager;
 export default manager;

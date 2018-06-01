@@ -27,8 +27,8 @@ export default class Stats extends React.Component {
 
   handleQuit() {
     stats.gameWatch.stop();
-    clearInterval(this.elapsedTimeInterval);
-    // TODO: show end game menu
+    manager.gameEnded();
+    this.props.cbHandleQuit();
   }
 
   render() {
@@ -45,9 +45,8 @@ export default class Stats extends React.Component {
       avgTime = activePlayer.getAvgTurnTime();
     }
 
-    if (manager.isGameEnd()){
+    if (manager.isGameEnd()) {
       stats.gameWatch.stop();
-      clearInterval(this.elapsedTimeInterval);
     }
 
     return (
