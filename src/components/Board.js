@@ -20,6 +20,7 @@ export default class Board extends React.Component {
           <Stats
             stats={this.props.board.stats}
             cbHandleQuit={this.props.cbHandleQuit}
+            cbHandleUndo={this.props.cbHandleUndo}
           />
           <PlayZone playZone={this.props.board.playZone} />
           <Deck deck={this.props.board.deck} />

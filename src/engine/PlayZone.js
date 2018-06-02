@@ -22,10 +22,14 @@ const playZone = (function() {
       return playZone.cards.length === 0;
     },
 
-    copyState: function(){
+    copyState: function() {
       return {
         cards: playZone.cards.slice()
       };
+    },
+
+    init: function() {
+      this.cards = [];
     }
   };
 })();

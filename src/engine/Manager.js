@@ -31,6 +31,7 @@ const manager = (function() {
     },
 
     updateUI: function() {
+      debugger;
       const boardState = {
         userPlayer: manager.players[0].copyState(),
         pcPlayer: manager.players[1].copyState(),
@@ -142,6 +143,7 @@ const manager = (function() {
         manager.deck.insertCard(card);
         card = manager.drawCard();
       }
+      manager.playZone.init();
       manager.playZone.putOnTop(card);
 
       // deal the first cards to players

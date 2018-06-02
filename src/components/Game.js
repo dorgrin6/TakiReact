@@ -2,7 +2,6 @@ import React from "react";
 import "../css/style.css";
 import Board from "./Board";
 import manager from "../engine/Manager.js";
-import stats from "../engine/Stats.js";
 import ColorMenu from "./ColorMenu";
 import EndGameMenu from "./EndGameMenu.js";
 
@@ -28,8 +27,8 @@ export default class Game extends React.Component {
 
   restartGame() {
     this.setState(() => this.initalState);
-    stats.resetGameWatch();
     manager.init();
+    manager.updateUI();
   }
 
   componentWillMount() {
@@ -39,6 +38,7 @@ export default class Game extends React.Component {
   }
 
   updateUI(boardState) {
+    this.saveHistory(boardState);
     this.setState(() => ({ board: boardState }));
   }
 
@@ -46,22 +46,16 @@ export default class Game extends React.Component {
     this.setState(() => ({ quit: true }));
   }
 
-  render() {
-    return (
-      <div>
-        <Board
-          board={this.state.board}
-          cbHandleQuit={this.handleQuit.bind(this)}
-        />
-        {this.renderColorMenu()}
-        {manager.isGameEnd() ? (
-          <EndGameMenu
-            cbRestartGame={this.restartGame.bind(this)}
-            quit={this.state.quit}
-          />
-        ) : null}
-      </div>
-    );
+  saveHistory(boardState) {
+    this.setState(prevState => ({
+      history: [...prevState.history, boardState]
+    }));
+  }
+
+  loadHistory(index) {
+    this.setState(prevState => ({
+      board: prevState.history[1]
+    }));
   }
 
   toggleColorMenu() {
@@ -73,5 +67,28 @@ export default class Game extends React.Component {
       return <ColorMenu onColorSelected={this.toggleColorMenu.bind(this)} />;
     }
     return null;
+  }
+
+  handleUndo() {
+    this.loadHistory(this.state.board.length - 1);
+  }
+
+  render() {
+    return (
+      <div>
+        <Board
+          board={this.state.board}
+          cbHandleQuit={this.handleQuit.bind(this)}
+          cbHandleUndo={this.handleUndo.bind(this)}
+        />
+        {this.renderColorMenu()}
+        {manager.isGameEnd() ? (
+          <EndGameMenu
+            cbRestartGame={this.restartGame.bind(this)}
+            quit={this.state.quit}
+          />
+        ) : null}
+      </div>
+    );
   }
 }

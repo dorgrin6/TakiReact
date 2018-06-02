@@ -65,6 +65,15 @@ export default class Stats extends React.Component {
           >
             Quit
           </button>
+          <button
+            className="stats-button button-UI"
+            onClick={this.props.cbHandleUndo}
+          >
+            Undo
+          </button>
+
+
+
         </div>
       </div>
     );

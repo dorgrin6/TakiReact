@@ -6,60 +6,70 @@ import manager from "../engine/Manager.js";
 export default class PlayZone extends React.Component {
   constructor(props) {
     super(props);
-    this.cardsWithAngle = [];
+    this.angleCache = [];
   }
 
-  putPlayZoneCard(card) {
+  getCardAngle() {
     const sign = Math.random() > 0.5 ? 1 : -1;
     const angleAbs = Math.random() * 20;
     const angle = angleAbs * sign;
 
-    let playZoneCard = {
-      data: card,
-      angle: angle
-    };
-
-    this.cardsWithAngle.push(playZoneCard);
+    return angle;
   }
 
   checkTakiMode() {
     let activePlayer = manager.getActivePlayer();
-    return (activePlayer.inTakiMode.status === true && activePlayer.playerType === "user");
+    return (
+      activePlayer.inTakiMode.status === true &&
+      activePlayer.playerType === "user"
+    );
   }
 
-  closeTaki(){
-      manager.getActivePlayer().closeTaki();
+  closeTaki() {
+    manager.getActivePlayer().closeTaki();
   }
 
-  renderPlayZoneCard(card){
+  renderPlayZoneCard(card, angle) {
     return (
       <Card
-        key={card.data.cardId}
+        key={card.cardId}
         holder={"playZone"}
         cardStyle={"card-playZone"}
-        frontImg={card.data.frontImg}
-        rotate={card.angle}
+        frontImg={card.frontImg}
+        rotate={angle}
       />
     );
   }
 
   render() {
-    if (this.props.playZone.cards.length !== this.cardsWithAngle.length) {
-      let newCard = this.props.playZone.cards[
-        this.props.playZone.cards.length - 1
-      ];
-      this.putPlayZoneCard(newCard);
+    debugger;
+    const cardsWithAngle = [];
+    const playZoneCards = this.props.playZone.cards;
+    const cardsDiff = playZoneCards.length - this.angleCache.length;
+    const isInTakiMode = this.checkTakiMode();
+
+    // There are more playZone cards than angles
+    for (let i = 0; i < cardsDiff; i++) {
+      this.angleCache.push(this.getCardAngle());
     }
 
-    for(let i=0;i<this.cardsWithAngle.length;i++){
-        this.cardsWithAngle[i].card=this.props.playZone.cards[i];
+    // There are less playZone cards than angles
+    for (let i = 0; i < -cardsDiff; i++) {
+      this.angleCache.pop();
     }
 
-    let isInTakiMode = this.checkTakiMode();
+    for (let i = 0; i < playZoneCards.length; i++) {
+      cardsWithAngle.push(
+        this.renderPlayZoneCard(playZoneCards[i], this.angleCache[i])
+      );
+    }
+
     return (
       <div className={"playZone"} id={"playZone"}>
-        {isInTakiMode ? <CloseTakiButton onClick={()=>this.closeTaki()}/> : null}
-        {this.cardsWithAngle.map(card => this.renderPlayZoneCard(card))}
+        {isInTakiMode ? (
+          <CloseTakiButton onClick={() => this.closeTaki()} />
+        ) : null}
+        {cardsWithAngle}
       </div>
     );
   }
