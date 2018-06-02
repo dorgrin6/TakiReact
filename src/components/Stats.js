@@ -57,23 +57,31 @@ export default class Stats extends React.Component {
           <p>{turnIndicator}</p>
           <p>Last card: {lastCardCounter}</p>
           <p>Avg time per turn: {avgTime}</p>
-
           <button
             className="stats-button button-UI"
-            id="quit-button"
+            id={"quit-button"}
             onClick={this.handleQuit.bind(this)}
           >
             Quit
           </button>
-          <button
-            className="stats-button button-UI"
-            onClick={this.props.cbHandleUndo}
-          >
-            Undo
-          </button>
-
-
-
+          {this.props.inShowMode ? (
+            <button
+              className="stats-button button-UI"
+              id={"prev-button"}
+              onClick={this.props.cbHandlePrevHistory}
+            >
+              Prev
+            </button>
+          ) : null}
+          {this.props.inShowMode ? (
+            <button
+              className="stats-button button-UI"
+              id={"next-button"}
+              onClick={this.props.cbHandleNextHistory}
+            >
+              Next
+            </button>
+          ) : null}
         </div>
       </div>
     );

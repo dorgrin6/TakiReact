@@ -26,7 +26,7 @@ export default class Card extends React.Component {
         className={`${this.props.cardStyle}`}
         src={imgSrc}
         style={styles}
-        onClick={this.props.onclick}
+        onClick={this.props.inShowMode ? null : this.props.onClick}
         title={title}
       />
     );

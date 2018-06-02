@@ -75,10 +75,7 @@ const playerFactory = (function() {
 
       player.drawCardFromDeck = function() {
         let card;
-        if (!player.isAbleToDrawFromDeck()){
-          return;
-        }
-        else if (player.mustTake > 0) {
+        if (player.mustTake > 0) {
           for (let i = 0; i < player.mustTake; i++) {
             card = manager.drawCard();
             player.hand.cards.push(card);
@@ -98,9 +95,11 @@ const playerFactory = (function() {
           return;
         }
         this.drawCardFromDeck();
+        this.endTurn();
         manager.swapPlayer();
       };
 
+      // TODO:  this function isn't correct, what about  mustTake?
       player.isAbleToDrawFromDeck = function(){
         return (!player.inTakiMode.status && player.hand.legalCards.length === 0);
       };

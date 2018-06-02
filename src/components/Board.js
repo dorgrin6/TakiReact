@@ -14,19 +14,35 @@ export default class Board extends React.Component {
   render() {
     return (
       <div>
-        <Hand id={"pc"} hand={this.props.board.pcPlayer.hand} />
+        <Hand
+          id={"pc"}
+          hand={this.props.board.pcPlayer.hand}
+          inShowMode={this.props.inShowMode}
+        />
 
         <div className={"container board-row"}>
           <Stats
             stats={this.props.board.stats}
             cbHandleQuit={this.props.cbHandleQuit}
-            cbHandleUndo={this.props.cbHandleUndo}
+            cbHandlePrevHistory={this.props.cbHandlePrevHistory}
+            cbHandleNextHistory={this.props.cbHandleNextHistory}
+            inShowMode={this.props.inShowMode}
           />
-          <PlayZone playZone={this.props.board.playZone} />
-          <Deck deck={this.props.board.deck} />
+          <PlayZone
+            playZone={this.props.board.playZone}
+            inShowMode={this.props.inShowMode}
+          />
+          <Deck
+            deck={this.props.board.deck}
+            inShowMode={this.props.inShowMode}
+          />
         </div>
 
-        <Hand id={"user"} hand={this.props.board.userPlayer.hand} />
+        <Hand
+          id={"user"}
+          hand={this.props.board.userPlayer.hand}
+          inShowMode={this.props.inShowMode}
+        />
       </div>
     );
   }

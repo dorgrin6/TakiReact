@@ -118,13 +118,23 @@ th {
 }
 
 .button-UI:hover {
-    box-shadow: inset 0 0 10px #000000;
+    box-shadow: inset 0 0 10px black;
 }
 
-.play-again-button {
+#play-again-button {
     background-color: lightGreen;
     font-size: 2vw;
-    width: 50%;
+    width: 25%;
+    height: 4vw;
+    text-align: center;
+    margin-top: 3vw;
+    line-height: 4vw;
+}
+
+#show-game-button{
+    background-color: lightGreen;
+    font-size: 2vw;
+    width: 25%;
     height: 4vw;
     text-align: center;
     margin-top: 3vw;

@@ -6,22 +6,22 @@ export default class Deck extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      legal: false,
+      legal: false
     };
   }
 
   getCardStyle() {
-    let res = 'card-deck';
+    let res = "card-deck";
     const activePlayer = manager.getActivePlayer();
-    if (activePlayer.playerType === 'user') {
+    if (!this.props.inShowMode && activePlayer.playerType === "user") {
       if (activePlayer.isAbleToDrawFromDeck()) {
-        res += ' legal-card';
+        res += " legal-card";
       } else {
-        res += ' illegal-card';
+        res += " illegal-card";
       }
     }
 
-    res += ' tooltip';
+    res += " tooltip";
     return res;
   }
 
@@ -30,9 +30,6 @@ export default class Deck extends React.Component {
   }
 
   render() {
-    // TODO: show deck propertly this is just a stub
-
-    const cards = [];
     const cardStyle = this.getCardStyle();
 
     return (
@@ -41,8 +38,9 @@ export default class Deck extends React.Component {
         key={this.props.deck.cards[0].cardId}
         frontImg={this.props.deck.cards[0].frontImg}
         cardStyle={cardStyle}
-        style={{ position: 'absolute' }}
-        onclick={this.handleClick.bind(this)}
+        style={{ position: "absolute" }}
+        onClick={this.handleClick.bind(this)}
+        inShowMode={this.props.inShowMode}
       />
     );
   }

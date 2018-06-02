@@ -5,7 +5,7 @@ import manager from "../engine/Manager";
 export default class Hand extends React.Component {
   cardSelected(cardId) {
     const activePlayer = manager.getActivePlayer();
-    if (activePlayer.playerType === 'user' && this.props.id === 'user'){
+    if (activePlayer.playerType === "user" && this.props.id === "user") {
       const card = activePlayer.hand.getCardById(cardId);
       activePlayer.playCard(card);
     }
@@ -13,17 +13,20 @@ export default class Hand extends React.Component {
 
   createCard(currentCard) {
     const activePlayer = manager.getActivePlayer();
-    let cardStyle = 'card';
-    if (activePlayer.playerType === 'user' && this.props.id === 'user') {
-      if (manager.isCardLegal(currentCard)) {
-        cardStyle = 'legal-card';
-      } else {
-        cardStyle = 'illegal-card';
+    let cardStyle = "card";
+    if (!this.props.inShowMode) {
+      if (activePlayer.playerType === "user" && this.props.id === "user") {
+        if (manager.isCardLegal(currentCard)) {
+          cardStyle = "legal-card";
+        } else {
+          cardStyle = "illegal-card";
+        }
       }
     }
 
-    const handleClick = function () {
+    const handleClick = function() {
       this.cardSelected(currentCard.cardId);
+      // this.props.cbSaveHistory();
     };
 
     return (
@@ -33,7 +36,8 @@ export default class Hand extends React.Component {
         description={currentCard.description}
         cardStyle={cardStyle}
         frontImg={currentCard.frontImg}
-        onclick={handleClick.bind(this)}
+        onClick={handleClick.bind(this)}
+        inShowMode={this.props.inShowMode}
       />
     );
   }

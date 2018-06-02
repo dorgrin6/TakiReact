@@ -12,6 +12,7 @@ export default class Game extends React.Component {
       board: {},
       history: [],
       stepNumber: 0,
+      inShowMode: false, // this cancels interactivity and animations
       colorMenuShown: false,
       quit: false
     };
@@ -31,14 +32,18 @@ export default class Game extends React.Component {
     manager.updateUI();
   }
 
+  showGame() {
+    this.setState(() => ({ inShowMode: true }));
+  }
+
   componentWillMount() {
     manager.setCBUIUpdateFunction(this.updateUI.bind(this));
     manager.setUIChangeColorFunction(this.toggleColorMenu.bind(this));
+    manager.setCBUISaveHistory(this.saveHistory.bind(this));
     manager.updateUI();
   }
 
   updateUI(boardState) {
-    this.saveHistory(boardState);
     this.setState(() => ({ board: boardState }));
   }
 
@@ -46,15 +51,31 @@ export default class Game extends React.Component {
     this.setState(() => ({ quit: true }));
   }
 
-  saveHistory(boardState) {
+  saveHistory() {
+    const boardState = manager.getBoardState();
     this.setState(prevState => ({
-      history: [...prevState.history, boardState]
+      history: [...prevState.history, boardState],
+      stepNumber: prevState.stepNumber + 1
     }));
   }
 
-  loadHistory(index) {
+  loadPrevHistory() {
+    if (this.state.stepNumber === 0) {
+      return;
+    }
     this.setState(prevState => ({
-      board: prevState.history[1]
+      board: prevState.history[prevState.stepNumber - 1],
+      stepNumber: prevState.stepNumber - 1
+    }));
+  }
+
+  loadNextHistory() {
+    if (this.state.stepNumber >= this.state.history.length - 1) {
+      return;
+    }
+    this.setState(prevState => ({
+      board: prevState.history[prevState.stepNumber + 1],
+      stepNumber: prevState.stepNumber + 1
     }));
   }
 
@@ -69,8 +90,14 @@ export default class Game extends React.Component {
     return null;
   }
 
-  handleUndo() {
-    this.loadHistory(this.state.board.length - 1);
+  handlePrevHistory() {
+    this.setState(() => ({ inShowMode: true }));
+    this.loadPrevHistory();
+  }
+
+  handleNextHistory() {
+    this.setState(() => ({ inShowMode: true }));
+    this.loadNextHistory();
   }
 
   render() {
@@ -79,12 +106,15 @@ export default class Game extends React.Component {
         <Board
           board={this.state.board}
           cbHandleQuit={this.handleQuit.bind(this)}
-          cbHandleUndo={this.handleUndo.bind(this)}
+          cbHandlePrevHistory={this.handlePrevHistory.bind(this)}
+          cbHandleNextHistory={this.handleNextHistory.bind(this)}
+          inShowMode={this.state.inShowMode}
         />
         {this.renderColorMenu()}
-        {manager.isGameEnd() ? (
+        {manager.isGameEnd() && !this.state.inShowMode ? (
           <EndGameMenu
             cbRestartGame={this.restartGame.bind(this)}
+            cbShowGame={this.showGame.bind(this)}
             quit={this.state.quit}
           />
         ) : null}

@@ -21,6 +21,11 @@ const manager = (function() {
 
     CBUpdateUIComponents: () => {}, // set by Board to be updateUI(UIComponents)
     UIChangeColor: () => {},
+    CBUISaveHistory: () => {},
+
+    setCBUISaveHistory: function(func){
+      this.CBUISaveHistory = func;
+    },
 
     setCBUIUpdateFunction: function(func) {
       this.CBUpdateUIComponents = func;
@@ -30,17 +35,18 @@ const manager = (function() {
       this.UIChangeColor = func;
     },
 
-    updateUI: function() {
-      debugger;
-      const boardState = {
+    getBoardState: function() {
+      return {
         userPlayer: manager.players[0].copyState(),
         pcPlayer: manager.players[1].copyState(),
         stats: stats.copyState(),
         playZone: manager.playZone.copyState(),
         deck: manager.deck.copyState()
       };
+    },
 
-      manager.CBUpdateUIComponents(boardState);
+    updateUI: function() {
+      manager.CBUpdateUIComponents(manager.getBoardState());
     },
 
     drawCard: function() {
@@ -105,6 +111,7 @@ const manager = (function() {
         manager.gameEnded();
       }
 
+      manager.CBUISaveHistory();
       manager.updateUI();
 
       if (!manager.isGameEnded) {

@@ -42,10 +42,18 @@ const EndGameMenu = props => {
           </tbody>
         </table>
         <div
-          className={"play-again-button button-UI"}
+          className={"button-UI"}
+          id={"play-again-button"}
           onClick={handleClickReplay.bind(null, props)}
         >
           Play again!
+        </div>
+        <div
+          className={"button-UI"}
+          id={"show-game-button"}
+          onClick={handleClickShowGame.bind(null, props)}
+        >
+          Show game
         </div>
       </div>
     </div>
@@ -73,5 +81,10 @@ function makeTableCell(column, value) {
 function handleClickReplay(props) {
   props.cbRestartGame();
 }
+
+function handleClickShowGame(props) {
+  props.cbShowGame();
+}
+
 
 export default EndGameMenu;

@@ -37,12 +37,12 @@ export default class PlayZone extends React.Component {
         cardStyle={"card-playZone"}
         frontImg={card.frontImg}
         rotate={angle}
+        inShowMode={this.props.inShowMode}
       />
     );
   }
 
   render() {
-    debugger;
     const cardsWithAngle = [];
     const playZoneCards = this.props.playZone.cards;
     const cardsDiff = playZoneCards.length - this.angleCache.length;
