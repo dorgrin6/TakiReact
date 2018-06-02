@@ -14,6 +14,7 @@ export default class Game extends React.Component {
       stepNumber: 0,
       inShowMode: false, // this cancels interactivity and animations
       colorMenuShown: false,
+      endMenuShown: false,
       quit: false
     };
 
@@ -33,14 +34,22 @@ export default class Game extends React.Component {
   }
 
   showGame() {
-    this.setState(() => ({ inShowMode: true }));
+    this.setState(() => ({
+      endMenuShown: false,
+      inShowMode: true
+    }));
   }
 
   componentWillMount() {
     manager.setCBUIUpdateFunction(this.updateUI.bind(this));
     manager.setUIChangeColorFunction(this.toggleColorMenu.bind(this));
     manager.setCBUISaveHistory(this.saveHistory.bind(this));
+    manager.setCBUIEndGame(this.endGame.bind(this));
     manager.updateUI();
+  }
+
+  endGame() {
+    this.setState(() => ({ endMenuShown: true }));
   }
 
   updateUI(boardState) {
@@ -48,7 +57,12 @@ export default class Game extends React.Component {
   }
 
   handleQuit() {
-    this.setState(() => ({ quit: true }));
+    // we are in show mode: show end game menu
+    if (this.state.inShowMode) {
+      this.setState(() => ({ endMenuShown: true }));
+    } else {
+      this.setState(() => ({ quit: true }));
+    }
   }
 
   saveHistory() {
@@ -83,6 +97,10 @@ export default class Game extends React.Component {
     this.setState(prevState => ({ colorMenuShown: !prevState.colorMenuShown }));
   }
 
+  toggleInShowMode() {
+    this.setState(prevState => ({ inShowMode: !prevState.inShowMode }));
+  }
+
   renderColorMenu() {
     if (this.state.colorMenuShown) {
       return <ColorMenu onColorSelected={this.toggleColorMenu.bind(this)} />;
@@ -111,11 +129,12 @@ export default class Game extends React.Component {
           inShowMode={this.state.inShowMode}
         />
         {this.renderColorMenu()}
-        {manager.isGameEnd() && !this.state.inShowMode ? (
+        {this.state.endMenuShown ? (
           <EndGameMenu
             cbRestartGame={this.restartGame.bind(this)}
             cbShowGame={this.showGame.bind(this)}
             quit={this.state.quit}
+            endGame={this.state.endMenuShown}
           />
         ) : null}
       </div>

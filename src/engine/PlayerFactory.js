@@ -11,7 +11,7 @@ const playerFactory = (function() {
     USER: "user"
   };
 
-  function getAvgTime(turnsAmount, turnsTime) {
+  function getAvgTimePerPlayer(turnsAmount, turnsTime) {
     return turnsAmount === 0
       ? 0
       : stopWatchFactory.millisToMinutesAndSeconds(turnsTime / turnsAmount);
@@ -100,14 +100,14 @@ const playerFactory = (function() {
       };
 
       // TODO:  this function isn't correct, what about  mustTake?
-      player.isAbleToDrawFromDeck = function(){
-        return (!player.inTakiMode.status && player.hand.legalCards.length === 0);
+      player.isAbleToDrawFromDeck = function() {
+        return !player.inTakiMode.status && player.hand.legalCards.length === 0;
       };
 
       player.selectColor = function(color) {
         const top = manager.playZone.popTheTop();
         top.color = color;
-        top.frontImg = top.frontImg.replace("colorful",color);
+        top.frontImg = top.frontImg.replace("colorful", color);
         manager.playZone.putOnTop(top);
 
         manager.updateUI();
@@ -196,11 +196,14 @@ const playerFactory = (function() {
       };
 
       player.getAvgTurnTime = function() {
-        return getAvgTime(player.stats.turnAmount, player.stats.turnsTime);
+        return getAvgTimePerPlayer(
+          player.stats.turnAmount,
+          player.stats.turnsTime
+        );
       };
 
       player.getAvgTurnTimeAllGames = function() {
-        return getAvgTime(
+        return getAvgTimePerPlayer(
           player.stats.turnAmountAllGames,
           player.stats.turnsTimeAllGames
         );
@@ -210,7 +213,7 @@ const playerFactory = (function() {
         return player.stats.lastCardCounter;
       };
 
-      player.copyState = function(){
+      player.copyState = function() {
         return {
           hand: player.hand.copyState(),
           stats: Object.assign({}, player.stats)
@@ -224,13 +227,12 @@ const playerFactory = (function() {
       return player;
     },
 
-
-    tryPlayOptions: function(legalCards, options){
+    tryPlayOptions: function(legalCards, options) {
       const findCardInArray = cardFactory.findCardInArray;
       const playCard = this.playCard;
       let isPlayed = false;
 
-      for(var i = 0; i<options.length && !isPlayed;i++){
+      for (let i = 0; i < options.length && !isPlayed; i++) {
         let type = options[i].type;
         let color = options[i].color;
         let value = options[i].value;
@@ -257,47 +259,47 @@ const playerFactory = (function() {
       }
 
       //if PC is in the middle of taki mode
-      if (activePlayer.inTakiMode.status){
-        let options =[
-          {type: TYPES.TAKI, color: top.color, value: undefined},
-          {type: TYPES.PLUS, color: top.color, value: undefined},
-          {type: TYPES.STOP, color: top.color, value: undefined},
-          {type: TYPES.VALUE, color: top.color, value: undefined},
-          {type: TYPES.TAKE2, color: top.color, value: undefined}
+      if (activePlayer.inTakiMode.status) {
+        let options = [
+          { type: TYPES.TAKI, color: top.color, value: undefined },
+          { type: TYPES.PLUS, color: top.color, value: undefined },
+          { type: TYPES.STOP, color: top.color, value: undefined },
+          { type: TYPES.VALUE, color: top.color, value: undefined },
+          { type: TYPES.TAKE2, color: top.color, value: undefined }
         ];
 
         isPlayed = tryPlayOptions(legalCards, options);
-        if (!isPlayed){
+        if (!isPlayed) {
           activePlayer.closeTaki();
         }
       }
       //if PC has to respond over take2 card
-      else if(activePlayer.mustTake > 0){
-        let options =[
-          {type: TYPES.TAKE2, color: undefined, value: undefined}
+      else if (activePlayer.mustTake > 0) {
+        let options = [
+          { type: TYPES.TAKE2, color: undefined, value: undefined }
         ];
 
         isPlayed = tryPlayOptions(legalCards, options);
-        if (!isPlayed){
+        if (!isPlayed) {
           activePlayer.drawWhenNoLegalCards();
         }
       }
       //if no special situation occurred then PC acts normally
-      else{
-        let options =[
-          {type: TYPES.TAKE2, color: undefined, value: undefined},
-          {type: TYPES.STOP, color: undefined, value: undefined},
-          {type: TYPES.PLUS, color: undefined, value: undefined},
-          {type: TYPES.TAKI, color: undefined, value: undefined},
-          {type: TYPES.VALUE, color: top.color, value: undefined},
-          {type: TYPES.VALUE, color: undefined, value: undefined},
-          {type: TYPES.SUPER_TAKI, color: undefined, value: undefined},
-          {type: TYPES.CHANGE, color: undefined, value: undefined}
+      else {
+        let options = [
+          { type: TYPES.TAKE2, color: undefined, value: undefined },
+          { type: TYPES.STOP, color: undefined, value: undefined },
+          { type: TYPES.PLUS, color: undefined, value: undefined },
+          { type: TYPES.TAKI, color: undefined, value: undefined },
+          { type: TYPES.VALUE, color: top.color, value: undefined },
+          { type: TYPES.VALUE, color: undefined, value: undefined },
+          { type: TYPES.SUPER_TAKI, color: undefined, value: undefined },
+          { type: TYPES.CHANGE, color: undefined, value: undefined }
         ];
 
         isPlayed = tryPlayOptions(legalCards, options);
-        if (!isPlayed){
-            activePlayer.drawWhenNoLegalCards();
+        if (!isPlayed) {
+          activePlayer.drawWhenNoLegalCards();
         }
       }
     },
@@ -316,10 +318,7 @@ const playerFactory = (function() {
         this.stats.turnAmountAllGames++;
         stats.turnAmount++;
         this.fillLegalCards();
-        // manager.CBPlayerChanged(manager.getActivePlayer());
-        // manager.onPlayerChanged.notify({
-        //   activePlayer: manager.getActivePlayer()
-        // });
+
         this.doTurn();
       }
     },

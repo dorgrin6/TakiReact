@@ -22,8 +22,9 @@ const manager = (function() {
     CBUpdateUIComponents: () => {}, // set by Board to be updateUI(UIComponents)
     UIChangeColor: () => {},
     CBUISaveHistory: () => {},
+    CBUIEndGame: () => {},
 
-    setCBUISaveHistory: function(func){
+    setCBUISaveHistory: function(func) {
       this.CBUISaveHistory = func;
     },
 
@@ -33,6 +34,10 @@ const manager = (function() {
 
     setUIChangeColorFunction: function(func) {
       this.UIChangeColor = func;
+    },
+
+    setCBUIEndGame: function(func) {
+      this.CBUIEndGame = func;
     },
 
     getBoardState: function() {
@@ -102,6 +107,7 @@ const manager = (function() {
     gameEnded: function() {
       stats.gamesAmount++;
       manager.isGameEnded = true;
+      manager.CBUIEndGame();
     },
 
     swapPlayer: function() {
@@ -246,5 +252,5 @@ const manager = (function() {
   };
 })();
 
-window.manager = manager;
+window.manager = manager; //TODO DEBUG remove
 export default manager;

@@ -9,8 +9,7 @@ export default class Stats extends React.Component {
 
     this.state = {
       turnAmount: 1,
-      time: "",
-      activePlayer: {}
+      time: ""
     };
   }
 
@@ -18,11 +17,8 @@ export default class Stats extends React.Component {
     this.elapsedTimeInterval = setInterval(() => {
       this.setState(() => ({
         time: stats.getElapsedTime(),
-        activePlayer: manager.getActivePlayer()
       }));
     }, 1000);
-
-    this.setState(() => ({ elapsedTimeInterval: this.elapsedTimeInterval }));
   }
 
   handleQuit() {
@@ -32,7 +28,7 @@ export default class Stats extends React.Component {
   }
 
   render() {
-    const activePlayer = this.state.activePlayer;
+    const activePlayer = manager.getActivePlayer();
 
     let turnIndicator = "";
     let lastCardCounter = "";
