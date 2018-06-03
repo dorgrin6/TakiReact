@@ -48,6 +48,10 @@ export default class Game extends React.Component {
     manager.updateUI();
   }
 
+  componentDidMount(){
+    this.saveHistory();
+  }
+
   endGame() {
     this.setState(() => ({ endMenuShown: true }));
   }
@@ -95,10 +99,6 @@ export default class Game extends React.Component {
 
   toggleColorMenu() {
     this.setState(prevState => ({ colorMenuShown: !prevState.colorMenuShown }));
-  }
-
-  toggleInShowMode() {
-    this.setState(prevState => ({ inShowMode: !prevState.inShowMode }));
   }
 
   renderColorMenu() {

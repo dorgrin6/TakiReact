@@ -13,7 +13,10 @@ const stopWatchFactory = (function() {
       const stopWatch = {};
 
       stopWatch.startMillisecs = 0;
-      stopWatch.elapsedMillisecs = 0;
+
+      stopWatch.isStopped = function() {
+        return stopWatch.stoppedValue !== null;
+      };
 
       stopWatch.start = function() {
         stopWatch.stoppedValue = null;
@@ -21,13 +24,18 @@ const stopWatchFactory = (function() {
       };
 
       stopWatch.stop = function() {
-        stopWatch.stoppedValue = stopWatch.elapsedMillisecs;
+        if (!stopWatch.isStopped()) {
+          stopWatch.stoppedValue = new Date().getTime() - stopWatch.startMillisecs;
+        }
+
         return stopWatch.stoppedValue;
       };
 
       stopWatch.getElapsedTime = function() {
-        if (stopWatch.stoppedValue) {
-          return stopWatch.stoppedValue;
+        if (stopWatch.isStopped()) {
+          return stopWatchFactory.millisToMinutesAndSeconds(
+            stopWatch.stoppedValue
+          );
         }
         return stopWatchFactory.millisToMinutesAndSeconds(
           new Date().getTime() - stopWatch.startMillisecs
@@ -39,7 +47,6 @@ const stopWatchFactory = (function() {
       };
 
       stopWatch.reset = function() {
-        stopWatch.elapsedMillisecs = 0;
         stopWatch.startMillisecs = 0;
       };
 

@@ -79,15 +79,14 @@ const playerFactory = (function() {
           for (let i = 0; i < player.mustTake; i++) {
             card = manager.drawCard();
             player.hand.cards.push(card);
-            manager.updateUI();
           }
 
           player.mustTake = 0;
         } else {
           card = manager.drawCard();
           player.hand.cards.push(card);
-          manager.updateUI();
         }
+        manager.updateUI();
       };
 
       player.drawWhenNoLegalCards = function() {
