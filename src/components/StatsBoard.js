@@ -3,63 +3,34 @@ import "../css/styleStatsMenu.css";
 import stats from "../engine/Stats";
 import manager from "../engine/Manager";
 
-export default class Stats extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      turnAmount: 1,
-      time: ""
-    };
-  }
-
-  componentDidMount() {
-    this.elapsedTimeInterval = setInterval(() => {
-      this.setState(() => ({
-        time: stats.getElapsedTime(),
-      }));
-    }, 1000);
-  }
-
+export default class StatsBoard extends React.Component {
   handleQuit() {
-    stats.gameWatch.stop();
     manager.gameEnded();
     this.props.cbHandleQuit();
   }
 
   render() {
-    const activePlayer = manager.getActivePlayer();
-
-    let turnIndicator = "";
-    let lastCardCounter = "";
-    let avgTime = "";
-
-    if (activePlayer && activePlayer.stats) {
-      turnIndicator =
-        activePlayer.playerType === "user" ? "Your turn" : "PC turn";
-      lastCardCounter = activePlayer.stats.lastCardCounter;
-      avgTime = activePlayer.getAvgTurnTime();
-    }
-
-    if (manager.isGameEnd()) {
-      stats.gameWatch.stop();
-    }
+    let statsPlayer = this.props.activePlayer.stats;
+    let turnIndicator = this.props.activePlayer.type === "user" ? "Your turn" : "PC turn";
 
     return (
       <div className="stats">
         <img src="../src/textures/board.png" id="stats-board" />
-        <div className="stats-text">
-          <p>Time: {this.state.time}</p>
-          <p>{turnIndicator}</p>
-          <p>Last card: {lastCardCounter}</p>
-          <p>Avg time per turn: {avgTime}</p>
+        <div className="stats-board-content">
+          <div className="stats-text">
+              {turnIndicator}<br/>
+              Last card: {statsPlayer.lastCardCounter}<br/>
+              Avg turn time: {statsPlayer.turnsAvgTime}
+          </div>
+
           <button
             className="stats-button button-UI"
             id={"quit-button"}
             onClick={this.handleQuit.bind(this)}
           >
-            Quit
+              {this.props.inShowMode ? "Results":"Quit"}
           </button>
+
           {this.props.inShowMode ? (
             <button
               className="stats-button button-UI"

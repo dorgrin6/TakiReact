@@ -1,13 +1,10 @@
 import React from "react";
-import Card from "./Card.js";
 import manager from "../engine/Manager.js";
 
 export default class Deck extends React.Component {
-  constructor(props) {
+  constructor(props){
     super(props);
-    this.state = {
-      legal: false
-    };
+    this.backCardImgSrc = "../src/textures/cards/card_back.png";
   }
 
   getCardStyle() {
@@ -33,15 +30,13 @@ export default class Deck extends React.Component {
     const cardStyle = this.getCardStyle();
 
     return (
-      <Card
-        holder="deck"
-        key={this.props.deck.cards[0].cardId}
-        frontImg={this.props.deck.cards[0].frontImg}
-        cardStyle={cardStyle}
-        style={{ position: "absolute" }}
-        onClick={this.handleClick.bind(this)}
-        inShowMode={this.props.inShowMode}
-      />
+      <div className={"deck"}>
+        <img
+          className={cardStyle}
+          src={this.backCardImgSrc}
+          onClick={this.props.inShowMode ? null : this.handleClick.bind(this)}
+        />
+      </div>
     );
   }
 }

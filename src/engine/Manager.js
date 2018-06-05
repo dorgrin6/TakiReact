@@ -42,11 +42,10 @@ const manager = (function() {
 
     getBoardState: function() {
       return {
-        userPlayer: manager.players[0].copyState(),
-        pcPlayer: manager.players[1].copyState(),
+        players: manager.players.map(player => player.copyState()),
+        turn: manager.playerTurn,
         stats: stats.copyState(),
         playZone: manager.playZone.copyState(),
-        deck: manager.deck.copyState()
       };
     },
 
@@ -106,6 +105,7 @@ const manager = (function() {
 
     gameEnded: function() {
       stats.gamesAmount++;
+      stats.gameWatch.stop();
       manager.isGameEnded = true;
       manager.CBUIEndGame();
     },
@@ -146,7 +146,9 @@ const manager = (function() {
     },
 
     init: function() {
+      stats.resetGameStats();
       stats.gameWatch.start();
+
       manager.deck.createDeck();
       manager.isGameEnded = false;
 

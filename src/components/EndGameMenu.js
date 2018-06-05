@@ -5,13 +5,14 @@ import stats from "../engine/Stats";
 
 export default class EndGameMenu extends React.Component {
   buildTableValues() {
+    const players = this.props.board.players;
     const tableValues = [];
-    for (let i = 0; i < manager.players.length; i++) {
+    for (let i = 0; i < players.length; i++) {
       let column = {
-        headline: manager.players[i].playerType,
-        avg: manager.players[i].getAvgTurnTime(),
-        avgAll: manager.players[i].getAvgTurnTimeAllGames(),
-        last: manager.players[i].getLastCardCounter()
+        headline: players[i].type,
+        avg: players[i].stats.turnsAvgTime,
+        avgAll: players[i].stats.turnsAvgTimeAllGames,
+        last: players[i].stats.lastCardCounter
       };
       tableValues.push(column);
     }

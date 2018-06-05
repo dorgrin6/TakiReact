@@ -1,9 +1,11 @@
 import React from "react";
 import "../css/style.css";
 import Board from "./Board";
+import StatsBar from "./StatsBar.js";
 import manager from "../engine/Manager.js";
 import ColorMenu from "./ColorMenu";
 import EndGameMenu from "./EndGameMenu.js";
+import StartGameMenu from "./StartGameMenu.js";
 
 export default class Game extends React.Component {
   constructor(props) {
@@ -121,6 +123,10 @@ export default class Game extends React.Component {
   render() {
     return (
       <div>
+        <StatsBar
+            stats={this.state.board.stats}
+            inShowMode={this.state.inShowMode}
+         />
         <Board
           board={this.state.board}
           cbHandleQuit={this.handleQuit.bind(this)}
@@ -135,6 +141,7 @@ export default class Game extends React.Component {
             cbShowGame={this.showGame.bind(this)}
             quit={this.state.quit}
             endGame={this.state.endMenuShown}
+            board={this.state.board}
           />
         ) : null}
       </div>

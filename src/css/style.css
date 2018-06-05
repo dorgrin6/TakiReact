@@ -1,3 +1,4 @@
+
 html, body {
     margin: 0;
     padding: 0;
@@ -25,12 +26,16 @@ th {
 }
 
 .board-row {
-    margin-top: 5%;
-    margin-bottom: 5%;
+    margin-top: 2%;
+    margin-bottom: 2%;
 }
 
 .deck {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
     grid-area: deck;
+    margin-top: 15%;
 }
 
 .playZone {
@@ -38,6 +43,7 @@ th {
     align-items: flex-start;
     justify-content: center;
     grid-area: playZone;
+    margin-top: 15%;
 }
 
 .hand {
@@ -73,7 +79,8 @@ th {
     transition: 0.3s;
     /* rounded border */
     border-radius: 10%;
-    width: 10%;
+    width: 8%;
+    /*TODO: width originally 10%*/
 }
 
 .card-playZone {
@@ -81,7 +88,8 @@ th {
 }
 
 .card-deck {
-    width: 32%;
+    width: 25%;
+    /*TODO: width originally 32%*/
 }
 
 .container {

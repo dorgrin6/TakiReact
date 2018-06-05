@@ -11,7 +11,7 @@ const playerFactory = (function() {
     USER: "user"
   };
 
-  function getAvgTimePerPlayer(turnsAmount, turnsTime) {
+  function getAvgTime(turnsAmount, turnsTime) {
     return turnsAmount === 0
       ? 0
       : stopWatchFactory.millisToMinutesAndSeconds(turnsTime / turnsAmount);
@@ -33,7 +33,9 @@ const playerFactory = (function() {
           turnAmount: 0,
           turnAmountAllGames: 0,
           turnsTime: 0,
-          turnsTimeAllGames: 0
+          turnsTimeAllGames: 0,
+          turnsAvgTime: 0,
+          turnsAvgTimeAllGames: 0
         },
         playerType: type,
         inTakiMode: {
@@ -52,6 +54,7 @@ const playerFactory = (function() {
         this.stats.lastCardCounter = 0;
         this.stats.turnAmount = 0;
         this.stats.turnsTime = 0;
+        this.stats.turnsAvgTime= 0;
 
         player.isStopped = 0;
         player.mustTake = 0;
@@ -195,14 +198,14 @@ const playerFactory = (function() {
       };
 
       player.getAvgTurnTime = function() {
-        return getAvgTimePerPlayer(
+        return getAvgTime(
           player.stats.turnAmount,
           player.stats.turnsTime
         );
       };
 
       player.getAvgTurnTimeAllGames = function() {
-        return getAvgTimePerPlayer(
+        return getAvgTime(
           player.stats.turnAmountAllGames,
           player.stats.turnsTimeAllGames
         );
@@ -214,6 +217,7 @@ const playerFactory = (function() {
 
       player.copyState = function() {
         return {
+          type: player.playerType,
           hand: player.hand.copyState(),
           stats: Object.assign({}, player.stats)
         };
@@ -327,6 +331,8 @@ const playerFactory = (function() {
       const elapsed = this.turnStopWatch.stop();
       this.stats.turnsTime += elapsed;
       this.stats.turnsTimeAllGames += elapsed;
+      this.stats.turnsAvgTime = getAvgTime(this.stats.turnAmount,this.stats.turnsTime);
+      this.stats.turnsAvgTimeAllGames = getAvgTime(this.stats.turnAmountAllGames,this.stats.turnsTimeAllGames);
     }
   };
 })();

@@ -11,8 +11,9 @@ const stats = (function() {
       return stats.gameWatch.getElapsedTime();
     },
 
-    resetGameWatch: function(){
-      this.gameWatch.reset();
+    resetGameStats: function(){
+      stats.gameWatch.reset();
+      stats.turnAmount = 0;
     },
 
     copyState: function() {

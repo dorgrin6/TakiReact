@@ -3,7 +3,7 @@ import "../css/style.css";
 import "../css/styleStatsMenu.css";
 import Hand from "./Hand.js";
 import PlayZone from "./PlayZone.js";
-import Stats from "./Stats.js";
+import StatsBoard from "./StatsBoard.js";
 import Deck from "./Deck";
 
 export default class Board extends React.Component {
@@ -12,17 +12,19 @@ export default class Board extends React.Component {
   }
 
   render() {
+    let playerTurn = this.props.board.turn;
     return (
       <div>
         <Hand
           id={"pc"}
-          hand={this.props.board.pcPlayer.hand}
+          hand={this.props.board.players[1].hand}
           inShowMode={this.props.inShowMode}
         />
 
         <div className={"container board-row"}>
-          <Stats
-            stats={this.props.board.stats}
+          <StatsBoard
+            statsPlayer={this.props.board.stats}
+            activePlayer={this.props.board.players[playerTurn]}
             cbHandleQuit={this.props.cbHandleQuit}
             cbHandlePrevHistory={this.props.cbHandlePrevHistory}
             cbHandleNextHistory={this.props.cbHandleNextHistory}
@@ -33,14 +35,13 @@ export default class Board extends React.Component {
             inShowMode={this.props.inShowMode}
           />
           <Deck
-            deck={this.props.board.deck}
             inShowMode={this.props.inShowMode}
           />
         </div>
 
         <Hand
           id={"user"}
-          hand={this.props.board.userPlayer.hand}
+          hand={this.props.board.players[0].hand}
           inShowMode={this.props.inShowMode}
         />
       </div>
