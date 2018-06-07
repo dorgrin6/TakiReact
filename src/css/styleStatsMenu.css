@@ -10,6 +10,7 @@
 
 .stats-board-content{
   position: absolute;
+  width: 100%;
   top: 0;
   left: 0;
   padding-left: 10%;
@@ -48,10 +49,8 @@
 
 .stats-bar-content {
   position: absolute;
-  display: block;
   width:50%;
   margin: auto;
-
   display: grid;
   grid-template-columns: 50% 50%;
   text-align: center;

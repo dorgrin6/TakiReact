@@ -1,4 +1,3 @@
-import eventFactory from "../engine/EventFactory.js";
 import handFactory from "../engine/HandFactory.js";
 import stopWatchFactory from "../engine/StopWatchFactory.js";
 import manager from "../engine/Manager.js";
@@ -22,11 +21,6 @@ const playerFactory = (function() {
 
     createPlayer: function(type) {
       const player = {
-        onRemovedCardFromHand: eventFactory.createEvent(),
-        onPutCardInPlayZone: eventFactory.createEvent(),
-        onDrawCardFromDeck: eventFactory.createEvent(),
-        onUpdateLegalCards: eventFactory.createEvent(),
-
         stats: {
           score: 0,
           lastCardCounter: 0,
@@ -112,7 +106,6 @@ const playerFactory = (function() {
         manager.playZone.putOnTop(top);
 
         manager.updateUI();
-        manager.onColorChanged.notify({ color: color });
         if (player.inTakiMode.status === true) {
           cardFactory.funcOpenTaki();
         } else {
@@ -136,7 +129,6 @@ const playerFactory = (function() {
       player.fillLegalCards = function() {
         player.hand.legalCards = player.hand.cards.filter(manager.isCardLegal);
         manager.updateUI();
-        player.onUpdateLegalCards.notify({ activePlayer: this });
       };
 
       player.clearLegalCards = function() {

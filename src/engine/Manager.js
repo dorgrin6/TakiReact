@@ -1,6 +1,5 @@
 import takiDeck from "../engine/Deck.js";
 import playZone from "../engine/PlayZone.js";
-import eventFactory from "../engine/EventFactory.js";
 import playerFactory from "../engine/PlayerFactory.js";
 import cardFactory from "../engine/CardFactory.js";
 import stats from "../engine/Stats.js";
@@ -12,12 +11,6 @@ const manager = (function() {
     playerTurn: 0,
     playZone: playZone,
     isGameEnded: false,
-    onPlayerChanged: eventFactory.createEvent(),
-    onGameEnded: eventFactory.createEvent(),
-    onTakiCard: eventFactory.createEvent(), // event represents "Taki" card on playZone
-    onChangeColor: eventFactory.createEvent(), // event represents "ChangeColor" card on playZone
-    onColorChanged: eventFactory.createEvent(), // event represents that color of "ChangeColor" was changed
-    onDeckRefill: eventFactory.createEvent(),
 
     CBUpdateUIComponents: () => {}, // set by Board to be updateUI(UIComponents)
     UIChangeColor: () => {},
@@ -63,7 +56,7 @@ const manager = (function() {
 
         const newDeck = manager.playZone.getUsedCards(); // copy the original deck except for the first card
         manager.deck.insertCards(newDeck); // insert it shuffled to deck
-        manager.onDeckRefill.notify();
+        manager.updateUI();
       }
 
       return manager.deck.draw();
@@ -179,8 +172,9 @@ const manager = (function() {
         activePlayer.fillLegalCards();
         if (activePlayer.playerType === "pc") {
           activePlayer.doTurn();
-        } else {
-          manager.onTakiCard.notify();
+        }
+        else {
+          manager.updateUI();
         }
       };
       cardFactory.funcChangeColor = function() {
@@ -189,7 +183,6 @@ const manager = (function() {
           activePlayer.selectColor(manager.colorDecision());
         } else {
           manager.UIChangeColor();
-          manager.onChangeColor.notify();
         }
       };
       cardFactory.funcStop = function() {
