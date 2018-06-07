@@ -101,7 +101,6 @@ const playerFactory = (function() {
         manager.swapPlayer();
       };
 
-      // TODO:  this function isn't correct, what about  mustTake?
       player.isAbleToDrawFromDeck = function() {
         return !player.inTakiMode.status && player.hand.legalCards.length === 0;
       };

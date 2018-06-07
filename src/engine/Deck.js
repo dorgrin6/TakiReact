@@ -23,7 +23,6 @@ const takiDeck = (function() {
 
     cards: [],
 
-    // TODO: need to change deck size in advanced
     createDeck: function() {
       let cardIdCounter = 1;
       let newCard;

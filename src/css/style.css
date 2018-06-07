@@ -80,7 +80,6 @@ th {
     /* rounded border */
     border-radius: 10%;
     width: 8%;
-    /*TODO: width originally 10%*/
 }
 
 .card-playZone {
@@ -89,7 +88,6 @@ th {
 
 .card-deck {
     width: 25%;
-    /*TODO: width originally 32%*/
 }
 
 .container {

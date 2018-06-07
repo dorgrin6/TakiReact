@@ -254,5 +254,4 @@ const manager = (function() {
   };
 })();
 
-window.manager = manager; //TODO DEBUG remove
 export default manager;
