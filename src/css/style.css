@@ -1,3 +1,4 @@
+
 html, body {
     margin: 0;
     padding: 0;
@@ -25,12 +26,16 @@ th {
 }
 
 .board-row {
-    margin-top: 5%;
-    margin-bottom: 5%;
+    margin-top: 2%;
+    margin-bottom: 2%;
 }
 
 .deck {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
     grid-area: deck;
+    margin-top: 15%;
 }
 
 .playZone {
@@ -38,6 +43,7 @@ th {
     align-items: flex-start;
     justify-content: center;
     grid-area: playZone;
+    margin-top: 15%;
 }
 
 .hand {
@@ -81,17 +87,16 @@ th {
 }
 
 .card-deck {
-    width: 32%;
+    width: 25%;
 }
 
 .container {
     display: grid;
-    grid-template-columns: 25% 50% 25%;
+    grid-template-columns: 33% 33% 33%;
     grid-template-areas: "stats playZone deck";
 }
 
 .menu-background {
-    display: none;
     position: fixed;
     z-index: 1;
     padding-top: 100px;
@@ -119,13 +124,23 @@ th {
 }
 
 .button-UI:hover {
-    box-shadow: inset 0 0 10px #000000;
+    box-shadow: inset 0 0 10px black;
 }
 
-.play-again-button {
+#play-again-button {
     background-color: lightGreen;
     font-size: 2vw;
-    width: 50%;
+    width: 25%;
+    height: 4vw;
+    text-align: center;
+    margin-top: 3vw;
+    line-height: 4vw;
+}
+
+#show-game-button{
+    background-color: lightGreen;
+    font-size: 2vw;
+    width: 25%;
     height: 4vw;
     text-align: center;
     margin-top: 3vw;

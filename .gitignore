@@ -112,3 +112,4 @@ chrome-user-data
 *.sublime-project
 *.sublime-workspace
 *.iml
+/public/bundle.js

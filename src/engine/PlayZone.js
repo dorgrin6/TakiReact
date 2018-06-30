@@ -1,26 +1,37 @@
-const playZone = (function () {
-    const cards = [];
+const playZone = (function() {
+  return {
+    cards: [],
 
-    return {
-        putOnTop: function (card) {
-            cards.push(card);
-        },
+    putOnTop: function(card) {
+      playZone.cards.push(card);
+    },
 
-        popTheTop: function () {
-            return cards.pop();
-        },
+    popTheTop: function() {
+      return playZone.cards.pop();
+    },
 
-        getTop: function () {
-            return cards[cards.length - 1];
-        },
+    getTop: function() {
+      return playZone.cards[playZone.cards.length - 1];
+    },
 
-        getUsedCards: function () {
-            return cards.splice(0, cards.length - 1);
-        },
+    getUsedCards: function() {
+      return playZone.cards.splice(0, playZone.cards.length - 1);
+    },
 
+    isEmpty: function() {
+      return playZone.cards.length === 0;
+    },
 
-        isEmpty: function () {
-            return (cards.length === 0);
-        }
-    };
+    copyState: function() {
+      return {
+        cards: playZone.cards.slice()
+      };
+    },
+
+    init: function() {
+      this.cards = [];
+    }
+  };
 })();
+
+export default playZone;

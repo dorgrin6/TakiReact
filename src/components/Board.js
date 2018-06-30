@@ -1,31 +1,45 @@
 import React from "react";
 import "../css/style.css";
 import "../css/styleStatsMenu.css";
-// import "../css/styleColorMenu.css;"
-// import "../css/styleCloseTaki.css"
 import Hand from "./Hand.js";
 import PlayZone from "./PlayZone.js";
-import Deck from "./Deck.js";
-import Stats from "./Stats.js";
+import StatsBoard from "./StatsBoard.js";
+import Deck from "./Deck";
 
-export default class Board extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+const Board = props => {
+  let playerTurn = props.board.turn;
 
-  render() {
-    return (
-      <div>
-        <Hand id={"pc"} holder={"card"} />
+  return (
+    <div>
+      <Hand
+        id={"pc"}
+        hand={props.board.players[1].hand}
+        inShowMode={props.inShowMode}
+      />
 
-        <div className={"container board-row"}>
-          <Stats />
-          <PlayZone />
-          <Deck />
-        </div>
-
-        <Hand id={"user"} holder={"card"} />
+      <div className={"container board-row"}>
+        <StatsBoard
+          statsPlayer={props.board.stats}
+          activePlayer={props.board.players[playerTurn]}
+          cbHandleQuit={props.cbHandleQuit}
+          cbHandlePrevHistory={props.cbHandlePrevHistory}
+          cbHandleNextHistory={props.cbHandleNextHistory}
+          inShowMode={props.inShowMode}
+        />
+        <PlayZone
+          playZone={props.board.playZone}
+          inShowMode={props.inShowMode}
+        />
+        <Deck inShowMode={props.inShowMode} />
       </div>
-    );
-  }
-}
+
+      <Hand
+        id={"user"}
+        hand={props.board.players[0].hand}
+        inShowMode={props.inShowMode}
+      />
+    </div>
+  );
+};
+
+export default Board;
